@@ -12,7 +12,7 @@ pipelines:
               - cd src/libraries/AridityTeam.Base
               - dotnet restore
               - dotnet build --no-restore --configuration Release
-              - dotnet test --no-build --configuration Release --test-adapter-path:. --logger:"junit;LogFilePath=$REPORTS_PATH/junit.xml"
+              - dotnet test --no-build --configuration Release --test-adapter-path:. --logger:"xunit;LogFilePath=$REPORTS_PATH/xunit.xml"
         - step:
             name: Lint the code
             caches:
