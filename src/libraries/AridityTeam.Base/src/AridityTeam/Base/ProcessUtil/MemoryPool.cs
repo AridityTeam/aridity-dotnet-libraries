@@ -39,7 +39,7 @@ namespace AridityTeam.Base.ProcessUtil
             _freeBlocks = new ConcurrentBag<IntPtr>();
 
             // Pre-allocate memory blocks
-            for (int i = 0; i < _initialBlockCount; i++)
+            for (var i = 0; i < _initialBlockCount; i++)
             {
                 _freeBlocks.Add(Marshal.AllocHGlobal(_blockSize));
             }
@@ -47,7 +47,7 @@ namespace AridityTeam.Base.ProcessUtil
 
         public IntPtr Rent()
         {
-            if (_freeBlocks.TryTake(out IntPtr block))
+            if (_freeBlocks.TryTake(out var block))
             {
                 return block; // Return a free block
             }
@@ -66,7 +66,7 @@ namespace AridityTeam.Base.ProcessUtil
 
         public void Clear()
         {
-            while (_freeBlocks.TryTake(out IntPtr block))
+            while (_freeBlocks.TryTake(out var block))
             {
                 Marshal.FreeHGlobal(block); // Free all blocks in the pool
             }

@@ -28,7 +28,7 @@ public interface ILogger : IDisposable
     /// <summary>
     /// <para>Okay this is the fun part of this class.</para>
     /// <para>
-    /// This logs a specific message and verbosity into the console and to the specified destination. Some stuff might not work as expected like LOG_TO_FILE but for now i'll leave it like this.
+    /// This logs a specific message and verbosity into the console and to the specified destination. Some stuff might not work as expected like LOG_TO_FILE but for now I'll leave it like this.
     /// Some stuff from mini_chromium (Chromium Base) that could possibly be ported will be planned.
     /// </para>
     /// <example>
@@ -45,9 +45,9 @@ public interface ILogger : IDisposable
     /// _logger.Log(LogSeverity.LogInfo, "Hello world!");
     /// _logger.Log(LogSeverity.LogInfo, "This is the implementation or most likely a port of the Chromium logger in .NET!");
     /// _logger.Log(LogSeverity.LogInfo, "This is an info message.");
-    /// _logger.Log(LogSeverity.LogWarning, "This is an warning message.");
+    /// _logger.Log(LogSeverity.LogWarning, "This is a warning message.");
     /// _logger.Log(LogSeverity.LogError, "This is an error message.");
-    /// _logger.Log(LogSeverity.LogFatal, "This is an fatal message. The program will exit immediately in code 1.");
+    /// _logger.Log(LogSeverity.LogFatal, "This is a fatal message. The program will exit immediately in code 1.");
     /// </code>
     /// </example>
     /// <para>

@@ -18,7 +18,6 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-using System;
 using System.Runtime.Versioning;
 using Microsoft.Win32;
 
@@ -41,10 +40,7 @@ namespace AridityTeam.Base.Util
             if (key == null)
                 return null;
 
-            if (subKey == null)
-                return null;
-
-            return key?.CreateSubKey(subKey, true);
+            return subKey == null ? null : key.CreateSubKey(subKey, true);
         }
 
         /// <summary>
@@ -58,10 +54,7 @@ namespace AridityTeam.Base.Util
             if (key == null)
                 return null;
 
-            if (subKey == null)
-                return null;
-
-            return key?.OpenSubKey(subKey);
+            return subKey == null ? null : key.OpenSubKey(subKey);
         }
 
         /// <summary>
@@ -72,13 +65,9 @@ namespace AridityTeam.Base.Util
         /// <returns></returns>
         public static int? GetInt(RegistryKey? regKey, string? valueName)
         {
-            RegistryKey? key = regKey;
-            if (key == null)
-                return null;
+            var key = regKey;
 
-            object? keyValue = key?.GetValue(valueName);
-            if (keyValue == null)
-                return null;
+            var keyValue = key?.GetValue(valueName);
 
             return (int?)keyValue;
         }
@@ -91,13 +80,9 @@ namespace AridityTeam.Base.Util
         /// <returns></returns>
         public static string? GetString(RegistryKey? regKey, string? valueName)
         {
-            RegistryKey? key = regKey;
-            if (key == null)
-                return null;
+            var key = regKey;
 
-            object? keyValue = key?.GetValue(valueName);
-            if (keyValue == null)
-                return null;
+            var keyValue = key?.GetValue(valueName);
 
             return keyValue?.ToString();
         }
@@ -110,8 +95,8 @@ namespace AridityTeam.Base.Util
         /// <returns></returns>
         public static bool GetBool(RegistryKey? regKey, string? valueName)
         {
-            RegistryKey? key = regKey;
-            return key != null && key?.GetValue(valueName) != null && key?.GetValue(valueName)?.Equals(1) == true;
+            var key = regKey;
+            return key?.GetValue(valueName) != null && key.GetValue(valueName)?.Equals(1) == true;
         }
     }
 }

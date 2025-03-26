@@ -18,35 +18,31 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
+
+using System;
+
 namespace AridityTeam.Base.Util;
 
-public class CommandLineParser
+public class CommandLineParser(string[] args)
 {
-    private string[] _args;
-
-    public CommandLineParser(string[] args)
-    {
-        _args = args;
-    }
-
     public bool FindParm(string parm)
     {
-        foreach (var arg in _args)
+        foreach (var arg in args)
             return arg.Equals(parm);
         return false;
     }
     public int GetParm(string parm)
     {
-        foreach (var arg in _args)
-            return arg.IndexOf(parm);
+        foreach (var arg in args)
+            return arg.IndexOf(parm, StringComparison.OrdinalIgnoreCase);
         return -1;
     }
 
     public object? GetParmValue(int index)
     {
-        if (index < 0 || index >= _args.Length) return null;
-        string input = _args[index].Substring(0).Trim();
-        string[] parts = input.Split(new char[] { ' ', '=', ':' }, 2);
+        if (index < 0 || index >= args.Length) return null;
+        var input = args[index].Substring(0).Trim();
+        string[] parts = input.Split(' ', '=', ':');
         return parts[0].Trim();
     }
 }

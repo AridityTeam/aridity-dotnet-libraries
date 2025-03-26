@@ -31,11 +31,11 @@ namespace AridityTeam.Base.Util
     /// </summary>
     public class HeartbeatManager : IDisposable
     {
-        private ObservableConcurrentBag<HeartbeatInstance?>? _allInstances;
-        private ObservableConcurrentBag<HeartbeatInstance?>? _allRunningInstances;
-        private Logger? _logger = null;
+        private readonly ObservableConcurrentBag<HeartbeatInstance?>? _allInstances;
+        private readonly ObservableConcurrentBag<HeartbeatInstance?>? _allRunningInstances;
+        private readonly Logger? _logger = null;
         private static HeartbeatManager? _mgrInstance = null;
-        private static object _lock = new object();
+        private static readonly object _lock = new object();
 
         /// <summary>
         /// Gets the existing instance of HeartbeatManager.
@@ -76,7 +76,7 @@ namespace AridityTeam.Base.Util
         /// <param name="obj"></param>
         private void RunningInstances_OnItemRemoved(HeartbeatInstance? obj)
         {
-            _logger?.Log(LogSeverity.LogInfo, string.Format("Instance {0} is now canceled.", obj?.InstanceName));
+            _logger?.Log(LogSeverity.LogInfo, $"Instance {obj?.InstanceName} is now canceled.");
         }
 
         /// <summary>
@@ -85,7 +85,7 @@ namespace AridityTeam.Base.Util
         /// <param name="instance"></param>
         private void RunningInstances_OnItemAdded(HeartbeatInstance? instance)
         {
-            _logger?.Log(LogSeverity.LogInfo, string.Format("The heartbeat instance '{0}' is now running...", instance?.InstanceName));
+            _logger?.Log(LogSeverity.LogInfo, $"The heartbeat instance '{instance?.InstanceName}' is now running...");
         }
 
         /// <summary>
@@ -96,7 +96,7 @@ namespace AridityTeam.Base.Util
         {
             try
             {
-                _logger?.Log(LogSeverity.LogInfo, string.Format("Instance has been added:\n{0}", instance?.ToString()));
+                _logger?.Log(LogSeverity.LogInfo, $"Instance has been added:\n{instance?.ToString()}");
 
                 lock(_lock)
                 {
@@ -136,12 +136,12 @@ namespace AridityTeam.Base.Util
                 {
                     if (instance != null)
                     {
-                        _logger?.Log(LogSeverity.LogInfo, string.Format("Canceling {0}...", instance?.InstanceName));
+                        _logger?.Log(LogSeverity.LogInfo, $"Canceling {instance?.InstanceName}...");
                         instance?.CancellationTokenSource?.Cancel();
 
                         if (disposing == true)
                         {
-                            _logger?.Log(LogSeverity.LogInfo, string.Format("Disposing instance ({0})...", instance?.InstanceName));
+                            _logger?.Log(LogSeverity.LogInfo, $"Disposing instance ({instance?.InstanceName})...");
                             instance?.CancellationTokenSource?.Dispose();
                             instance?.RunningTask?.Dispose();
                         }

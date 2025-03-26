@@ -32,17 +32,17 @@ namespace AridityTeam.Base.Tests.MemoryTest
         [Fact]
         public void TestMemoryPool_RentAndReturn()
         {
-            Memory memory = new Memory(); // Initialize with a block size of 1024 bytes
+            var memory = new Memory(); // Initialize with a block size of 1024 bytes
 
             // Rent a block from the pool
-            Assert.IsTrue(memory.UncheckedMalloc(1024, out nint ptr1));
+            Assert.IsTrue(memory.UncheckedMalloc(1024, out var ptr1));
             Assert.AreNotEqual(nint.Zero, ptr1);
 
             // Return the block to the pool
             memory.Free(ptr1);
 
             // Rent another block (should reuse the returned block)
-            Assert.IsTrue(memory.UncheckedMalloc(1024, out nint ptr2));
+            Assert.IsTrue(memory.UncheckedMalloc(1024, out var ptr2));
             Assert.AreEqual(ptr1, ptr2); // Verify that the same block is reused
             memory.Free(ptr2);
         }
@@ -50,17 +50,17 @@ namespace AridityTeam.Base.Tests.MemoryTest
         [Fact]
         public void TestMemoryPool_Clear()
         {
-            Memory memory = new Memory(); // Initialize with a block size of 1024 bytes
+            var memory = new Memory(); // Initialize with a block size of 1024 bytes
 
             // Rent a block from the pool
-            Assert.IsTrue(memory.UncheckedMalloc(1024, out nint ptr));
+            Assert.IsTrue(memory.UncheckedMalloc(1024, out var ptr));
             Assert.AreNotEqual(nint.Zero, ptr);
 
             // Clear the pool
             memory.ClearPool();
 
             // Verify that the block is no longer in the pool
-            Assert.IsTrue(memory.UncheckedMalloc(1024, out nint newPtr));
+            Assert.IsTrue(memory.UncheckedMalloc(1024, out var newPtr));
             Assert.AreNotEqual(ptr, newPtr); // A new block should be allocated
             memory.Free(newPtr);
         }
@@ -68,10 +68,10 @@ namespace AridityTeam.Base.Tests.MemoryTest
         [Fact]
         public void TestMemoryPool_LargeAllocation()
         {
-            Memory memory = new Memory(); // Initialize with a block size of 1024 bytes
+            var memory = new Memory(); // Initialize with a block size of 1024 bytes
 
             // Allocate a block larger than the pool block size
-            Assert.IsTrue(memory.UncheckedMalloc(2048, out nint ptr));
+            Assert.IsTrue(memory.UncheckedMalloc(2048, out var ptr));
             Assert.AreNotEqual(nint.Zero, ptr);
 
             // Free the block
@@ -81,22 +81,22 @@ namespace AridityTeam.Base.Tests.MemoryTest
         [Fact]
         public void TestMemoryPool_ThreadSafety()
         {
-            Memory memory = new Memory(); // Initialize with a block size of 1024 bytes
-            object lockObject = new object();
+            var memory = new Memory(); // Initialize with a block size of 1024 bytes
+            var lockObject = new object();
 
             // Simulate multiple threads accessing the pool
             Task[] tasks = new Task[10];
-            for (int i = 0; i < tasks.Length; i++)
+            for (var i = 0; i < tasks.Length; i++)
             {
                 tasks[i] = Task.Run(() =>
                 {
                     lock (lockObject)
                     {
-                        Assert.IsTrue(memory.UncheckedMalloc(1024, out nint ptr));
+                        Assert.IsTrue(memory.UncheckedMalloc(1024, out var ptr));
                         Assert.AreNotEqual(nint.Zero, ptr);
 
                         // Simulate some work
-                        for (int j = 0; j < 1024; j++)
+                        for (var j = 0; j < 1024; j++)
                         {
                             Marshal.WriteByte(ptr, j, (byte)(j % 256));
                         }

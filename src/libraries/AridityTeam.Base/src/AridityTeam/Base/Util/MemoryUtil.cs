@@ -18,25 +18,25 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-using System;
 using System.Diagnostics;
+using AridityTeam.Base.Internal;
 
 namespace AridityTeam.Base.Util
 {
     public static class MemoryUtil
     {
-        private static Logger _logger = new();
+        private static readonly Logger Logger = new();
 
         public static void CheckForMemoryLeaks(double maxMemUsage)
         {
-            HeartbeatInstance instance = new HeartbeatInstance()
+            var instance = new HeartbeatInstance()
             {
                 InstanceName = "Aridity Base Memory Checker",
                 HeartbeatTime = 3500,
                 ActionToRun = () =>
                 {
-                    _logger.Log(LogSeverity.LogInfo, string.Format("Current memory usage: {0}mb", maxMemUsage));
-                    if (GetMemoryUsageInMB() > maxMemUsage)
+                    Logger.Log(LogSeverity.LogInfo, $"Current memory usage: {maxMemUsage}mb");
+                    if (GetMemoryUsageInMb() > maxMemUsage)
                     {
                         throw new PerformanceException("Exceeded max memory limit.");
                     }
@@ -46,16 +46,16 @@ namespace AridityTeam.Base.Util
             HeartbeatManager.Instance.AddInstance(instance);
         }
 
-        public static double GetMemoryUsageInMB()
+        private static double GetMemoryUsageInMb()
         {
             // Get the current process
-            Process currentProcess = Process.GetCurrentProcess();
+            var currentProcess = Process.GetCurrentProcess();
 
             // Get the memory usage in bytes
-            long memoryUsageInBytes = currentProcess.WorkingSet64; // or use PrivateMemorySize64
+            var memoryUsageInBytes = currentProcess.WorkingSet64; // or use PrivateMemorySize64
 
             // Convert bytes to megabytes
-            double memoryUsageInMegabytes = memoryUsageInBytes / (1024.0 * 1024.0);
+            var memoryUsageInMegabytes = memoryUsageInBytes / (1024.0 * 1024.0);
 
             return memoryUsageInMegabytes;
         }

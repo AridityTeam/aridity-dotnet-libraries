@@ -1,5 +1,8 @@
+using System;
+
 namespace AridityTeam.Base.Util;
 
+[Flags]
 public enum LoggingDestination
 {
     LogNone = 0,

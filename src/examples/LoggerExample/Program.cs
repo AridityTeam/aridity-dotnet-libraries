@@ -1,6 +1,6 @@
 ﻿using AridityTeam.Base.Util;
 
-LoggingSettings settings = new LoggingSettings()
+var settings = new LoggingSettings()
 {
     Destination = LoggingDestination.LogToFile,
     EnableSentry = true,
@@ -9,8 +9,8 @@ LoggingSettings settings = new LoggingSettings()
         Dsn = "https://2b3ea381329c463578ffacd71e8a5806@o4507485361668096.ingest.de.sentry.io/4508856414175312",
     }
 };
-CommandLineParser _args = new CommandLineParser(args);
-Logger logger = new Logger();
+var _args = new CommandLineParser(args);
+var logger = new Logger();
 if(!logger.InitLogging(settings))
     throw new Exception("Failed to init logging settings");
 

@@ -32,7 +32,7 @@ namespace AridityTeam.Base.Util
                 throw new ArgumentNullException(nameof(args), "Arguments cannot be null");
             }
 
-            StringBuilder? _final = new StringBuilder();
+            var _final = new StringBuilder();
             foreach (var param in args)
             {
                 _final?.Append(param);

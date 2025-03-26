@@ -1,3 +1,23 @@
+/*
+ * Copyright (c) 2025 The Aridity Team
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ * 
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,12 +36,12 @@ public static class Assert
     /// <param name="expected">Expected type</param>
     /// <param name="actual">Actual type</param>
     /// <typeparam name="T">Any type bro.</typeparam>
-    /// <exception cref="AssertionErrorException">Throws when the expected type is not equal to the actual type.</exception>
+    /// <exception cref="AssertionFailedException">Throws when the expected type is not equal to the actual type.</exception>
     public static void AreEqual<T>(T expected, T actual)
     {
         if (!Equals(expected, actual))
         {
-            throw new AssertionErrorException($"Expected: {expected}, but was: {actual}");
+            throw new AssertionFailedException($"Expected: {expected}, but was: {actual}");
         }
     }
     
@@ -31,12 +51,12 @@ public static class Assert
     /// <param name="expected">Expected type</param>
     /// <param name="actual">Actual type</param>
     /// <typeparam name="T">Any type bro.</typeparam>
-    /// <exception cref="AssertionErrorException">Throws when of course, the expected type is actually EQUAL to the actual type.</exception>
+    /// <exception cref="AssertionFailedException">Throws when of course, the expected type is actually EQUAL to the actual type.</exception>
     public static void AreNotEqual<T>(T expected, T actual)
     {
         if (Equals(expected, actual))
         {
-            throw new AssertionErrorException($"Expected: {expected} not equal to {actual}");
+            throw new AssertionFailedException($"Expected: {expected} not equal to {actual}");
         }
     }
 
@@ -46,11 +66,11 @@ public static class Assert
     /// <param name="expected"></param>
     /// <param name="actual"></param>
     /// <param name="message"></param>
-    /// <exception cref="AssertionErrorException"></exception>
+    /// <exception cref="AssertionFailedException"></exception>
     public static void Contains(string expected, string actual, string? message = null)
     {
         if (!actual.Contains(expected)) 
-            throw new AssertionErrorException(message ?? $"Assertion failed: expected for {expected} to be inside of the collection");
+            throw new AssertionFailedException(message ?? $"Assertion failed: expected for {expected} to be inside of the collection");
     }
     
     /// <summary>
@@ -59,11 +79,11 @@ public static class Assert
     /// <param name="expected"></param>
     /// <param name="actual"></param>
     /// <param name="message"></param>
-    /// <exception cref="AssertionErrorException"></exception>
+    /// <exception cref="AssertionFailedException"></exception>
     public static void DoesNotContain(string expected, string actual, string? message = null)
     {
         if (actual.Contains(expected)) 
-            throw new AssertionErrorException(message ?? $"Assertion failed: expected for {expected} to be inside of the collection");
+            throw new AssertionFailedException(message ?? $"Assertion failed: expected for {expected} to be inside of the collection");
     }
     
     /// <summary>
@@ -73,11 +93,11 @@ public static class Assert
     /// <param name="collection"></param>
     /// <param name="message"></param>
     /// <typeparam name="T"></typeparam>
-    /// <exception cref="AssertionErrorException"></exception>
+    /// <exception cref="AssertionFailedException"></exception>
     public static void Contains<T>(T? expected, IEnumerable<T?> collection, string? message = null)
     {
         if (!collection.Contains(expected)) 
-            throw new AssertionErrorException(message ?? $"Assertion failed: expected for {expected} to be inside of the collection");
+            throw new AssertionFailedException(message ?? $"Assertion failed: expected for {expected} to be inside of the collection");
     }
     
     /// <summary>
@@ -87,17 +107,17 @@ public static class Assert
     /// <param name="collection"></param>
     /// <param name="message"></param>
     /// <typeparam name="T"></typeparam>
-    /// <exception cref="AssertionErrorException"></exception>
+    /// <exception cref="AssertionFailedException"></exception>
     public static void DoesNotContain<T>(T expected, IEnumerable<T> collection, string? message = null)
     {
         if (collection.Contains(expected)) 
-            throw new AssertionErrorException(message ?? $"Assertion failed: expected value ({expected}) is currently inside of the collection");
+            throw new AssertionFailedException(message ?? $"Assertion failed: expected value ({expected}) is currently inside of the collection");
     }
 
     public static void DoesThrow<T>(T? expected, Action action, string? message = null)
     {
         if (expected == null)
-            throw new AssertionErrorException(message ?? "Assertion failed: expected value is null");
+            throw new AssertionFailedException(message ?? "Assertion failed: expected value is null");
 
         try
         {
@@ -106,7 +126,7 @@ public static class Assert
         catch (Exception ex)
         {
             if (ex.GetType() != expected.GetType())
-                throw new AssertionErrorException(message ?? $"Assertion failed: expected value ({expected}) is not equal to {ex.GetType()}: {ex.Message}");
+                throw new AssertionFailedException(message ?? $"Assertion failed: expected value ({expected}) is not equal to {ex.GetType()}: {ex.Message}");
         }
     }
 
@@ -114,7 +134,7 @@ public static class Assert
     {
         if (!condition)
         {
-            throw new AssertionErrorException(message ?? "Assertion failed: expected true, but was false.");
+            throw new AssertionFailedException(message ?? "Assertion failed: expected true, but was false.");
         }
     }
 
@@ -122,7 +142,7 @@ public static class Assert
     {
         if (condition)
         {
-            throw new AssertionErrorException(message ?? "Assertion failed: expected false, but was true.");
+            throw new AssertionFailedException(message ?? "Assertion failed: expected false, but was true.");
         }
     }
 
@@ -130,7 +150,7 @@ public static class Assert
     {
         if (obj != null)
         {
-            throw new AssertionErrorException(message ?? "Assertion failed: expected null, but was not null.");
+            throw new AssertionFailedException(message ?? "Assertion failed: expected null, but was not null.");
         }
     }
 
@@ -138,7 +158,7 @@ public static class Assert
     {
         if (obj == null)
         {
-            throw new AssertionErrorException(message ?? "Assertion failed: expected not null, but was null.");
+            throw new AssertionFailedException(message ?? "Assertion failed: expected not null, but was null.");
         }
     }
 }

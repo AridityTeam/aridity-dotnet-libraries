@@ -20,9 +20,9 @@
  */
 using System;
 
-namespace AridityTeam.Base
+namespace AridityTeam.Base.Internal
 {
-    public class PerformanceException : Exception
+    internal class PerformanceException : Exception
     {
         public PerformanceException() : base() { }
         public PerformanceException(string? message) : base(message)

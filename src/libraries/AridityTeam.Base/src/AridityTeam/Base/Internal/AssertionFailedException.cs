@@ -1,4 +1,4 @@
-﻿/*
+/*
  * Copyright (c) 2025 The Aridity Team
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -19,22 +19,22 @@
  * SOFTWARE.
  */
 using System;
-using System.IO;
-using System.Threading.Tasks;
+using System.Linq.Expressions;
 
-namespace AridityTeam.Base.Tests.ResourceMgrTest
+namespace AridityTeam.Base.Internal;
+
+internal class AssertionFailedException : Exception
 {
-    public class ResourceManagerTests
+    public AssertionFailedException(string methodName, Expression expression) : base($"{methodName}({expression})")
     {
-        [Fact]
-        public void PrecacheTest()
-        {
-            var resourceMgr = new ResourceManager();
-            
-            Task.Run(async () =>
-            {
-                await resourceMgr.LoadResourceAsync(Path.Combine("./Images/bf_logo.png"), true);
-            });
-        }
+    }
+
+    public AssertionFailedException(string msg) : base(msg)
+    {
+    }
+
+    public AssertionFailedException(string msg, Exception innerException) : base(msg, innerException)
+    {
+        
     }
 }

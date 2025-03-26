@@ -31,7 +31,7 @@ namespace System
     /// </summary>
     public class MultiTextWriter : TextWriter
     {
-        private IEnumerable<TextWriter> writers;
+        private readonly IEnumerable<TextWriter> writers;
         public MultiTextWriter(IEnumerable<TextWriter> writers)
         {
             this.writers = writers.ToList();

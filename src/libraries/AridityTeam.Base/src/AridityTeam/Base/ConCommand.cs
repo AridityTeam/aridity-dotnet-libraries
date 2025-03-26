@@ -26,7 +26,7 @@ namespace AridityTeam.Base
     {
         private string? _name = null;
         private string? _helpString = null;
-        private FCVAR? _flags = null;
+        private readonly FCVAR? _flags = null;
         private ConCommandExecuteHandler? _executeAction = null;
 
         public ConCommand(string? name, ConCommandExecuteHandler? callback)

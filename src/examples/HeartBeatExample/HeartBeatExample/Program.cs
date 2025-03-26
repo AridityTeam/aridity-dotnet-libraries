@@ -1,6 +1,6 @@
 ﻿using AridityTeam.Base.Util;
 
-LoggingSettings loggingSettings = new LoggingSettings()
+var loggingSettings = new LoggingSettings()
 {
     Destination = LoggingDestination.LogNone
 };
@@ -9,7 +9,7 @@ logger.InitLogging(loggingSettings);
 
 logger.Log(LogSeverity.LogInfo, "Starting up...");
 
-HeartbeatInstance heartbeatInstance = new HeartbeatInstance()
+var heartbeatInstance = new HeartbeatInstance()
 {
     InstanceName = "HeartbeatExample",
     ActionToRun = () => { logger.Log(LogSeverity.LogInfo, "Look! This message will be displayed every 5 seconds!"); },
