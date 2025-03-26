@@ -11,23 +11,24 @@ namespace AridityTeam.Base.Util;
 /// </summary>
 public class LogMessage : IDisposable
 {
-    private readonly string[] _logSeverityNames = {
+    private readonly string[] _logSeverityNames =
+    [
         "INFO",
         "WARNING",
         "ERROR",
         "ERROR_REPORT",
         "FATAL"
-    };
+    ];
 
     private readonly System.Threading.Lock _lock = new System.Threading.Lock();
     
-    private TextWriter? _writer = null;
+    private TextWriter? _writer;
     private readonly string _filePath;
-    private readonly int _line = 0;
+    private readonly int _line ;
     private readonly LogMessageHandlerFunction? _handler = Logger.Instance.GetLogMessageHandler();
     private readonly LogSeverity _severity;
     private int? _messageStart;
-    private string? _output = null;
+    private string? _output;
     
     public LogMessage(string function, string filePath, int line, int severity)
     {
@@ -67,13 +68,18 @@ public class LogMessage : IDisposable
         return _writer;
     }
 
-    private void Init(string function)
+    public string GetFilePath()
+    {
+        return _filePath;
+    }
+
+    private void Init(string function = "")
     {
         lock (_lock)
         {
             var destination = Logger.Instance.GetDestination();
             var strBuilder = new StringBuilder();
-            string fileName = _filePath;
+            var fileName = _filePath;
 
             _writer = new MultiTextWriter(Console.Out);
 
@@ -104,7 +110,7 @@ public class LogMessage : IDisposable
             int lastSlash;
 
             if (Environment.OSVersion.Platform == PlatformID.Win32NT)
-                lastSlash = fileName.LastIndexOf("\\");
+                lastSlash = fileName.LastIndexOf('\\');
             else
                 lastSlash = fileName.LastIndexOf('/');
 
@@ -113,8 +119,8 @@ public class LogMessage : IDisposable
                 fileName = fileName.Substring(lastSlash + 1);
             }
 
-            int pid = Process.GetCurrentProcess().Id;
-            int thread = Environment.CurrentManagedThreadId;
+            var pid = Process.GetCurrentProcess().Id;
+            var thread = Environment.CurrentManagedThreadId;
 
             strBuilder.Append("[" +
                            pid +
@@ -122,7 +128,7 @@ public class LogMessage : IDisposable
                            thread +
                            ":");
             
-            DateTime localTime = DateTime.Now;
+            var localTime = DateTime.Now;
             
             strBuilder.Append(localTime.Year +
                            localTime.Month +

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using AridityTeam.Base.Internal;
@@ -93,6 +94,22 @@ public static class Assert
             throw new AssertionErrorException(message ?? $"Assertion failed: expected value ({expected}) is currently inside of the collection");
     }
 
+    public static void DoesThrow<T>(T? expected, Action action, string? message = null)
+    {
+        if (expected == null)
+            throw new AssertionErrorException(message ?? "Assertion failed: expected value is null");
+
+        try
+        {
+            action();
+        }
+        catch (Exception ex)
+        {
+            if (ex.GetType() != expected.GetType())
+                throw new AssertionErrorException(message ?? $"Assertion failed: expected value ({expected}) is not equal to {ex.GetType()}: {ex.Message}");
+        }
+    }
+
     public static void IsTrue(bool condition, string? message = null)
     {
         if (!condition)
@@ -109,7 +126,7 @@ public static class Assert
         }
     }
 
-    public static void IsNull(object obj, string? message = null)
+    public static void IsNull(object? obj, string? message = null)
     {
         if (obj != null)
         {
@@ -117,7 +134,7 @@ public static class Assert
         }
     }
 
-    public static void IsNotNull(object obj, string? message = null)
+    public static void IsNotNull(object? obj, string? message = null)
     {
         if (obj == null)
         {

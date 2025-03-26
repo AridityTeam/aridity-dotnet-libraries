@@ -25,7 +25,7 @@ namespace AridityTeam.Base.Util
 {
     public static class MemoryUtil
     {
-        private static Logger _logger = new Logger();
+        private static Logger _logger = new();
 
         public static void CheckForMemoryLeaks(double maxMemUsage)
         {

@@ -2,13 +2,14 @@
 
 LoggingSettings settings = new LoggingSettings()
 {
-    Destination = LoggingDestination.LogNone,
+    Destination = LoggingDestination.LogToFile,
     EnableSentry = true,
     SentryOptions = new SentryOptions()
     {
         Dsn = "https://2b3ea381329c463578ffacd71e8a5806@o4507485361668096.ingest.de.sentry.io/4508856414175312",
     }
 };
+CommandLineParser _args = new CommandLineParser(args);
 Logger logger = new Logger();
 if(!logger.InitLogging(settings))
     throw new Exception("Failed to init logging settings");
@@ -18,4 +19,6 @@ logger.Log(LogSeverity.LogInfo, "This is the implementation or most likely a por
 logger.Log(LogSeverity.LogInfo, "This is an info message.");
 logger.Log(LogSeverity.LogWarning, "This is an warning message.");
 logger.Log(LogSeverity.LogError, "This is an error message.");
-logger.Log(LogSeverity.LogFatal, "This is an fatal message. It's going to crash the program!" );
+
+if(_args.FindParm("/fatal"))
+    logger.Log(LogSeverity.LogFatal, "This is an fatal message. It's going to crash the program!" );

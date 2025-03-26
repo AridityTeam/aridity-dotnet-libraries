@@ -18,8 +18,10 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
+using System;
 using System.IO;
 using System.Diagnostics;
+using System.Text;
 using System.Runtime.Versioning;
 using Microsoft.Win32;
 
@@ -29,49 +31,78 @@ namespace AridityTeam.Base.Util
     /// Beta Fortress Team's own implementation of the Steam class like from TF2CLauncher
     /// DO NOT CHANGE UNLESS YOU KNOW WHAT YOUR DOING
     /// </summary>
-    [SupportedOSPlatform("windows")]
     public static class Steam
     {
         /// <summary>
+        /// Find path to sourcemod folder.
+        /// </summary>
+        [SupportedOSPlatform("linux")]
+        public static string? GetSourceModsPathLinux()
+        {
+            try
+            {
+                string? path = null;
+                // Expand the user home directory for the file path.
+                var filePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile),
+                    ".steam", "registry.vdf");
+                using var file = new StreamReader(filePath, Encoding.UTF8);
+                // Read each line in the file.
+                while (file.ReadLine() is { } line)
+                {
+                    if (!line.Contains("SourceModInstallPath")) continue;
+                    var startIndex = line.IndexOf("/home", StringComparison.OrdinalIgnoreCase);
+                    if (startIndex >= 0 && startIndex < line.Length)
+                    {
+                        // Extract substring starting at "/home" up to the last character.
+                        // In the original Python code, [line.index('/home'):-1] is used.
+                        // Since StreamReader.ReadLine() removes newline characters, we take the substring from startIndex to the end.
+                        path = line[startIndex..].Replace(@"\\", "/");
+                    }
+
+                    break;
+                }
+
+                return path;
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+        }
+
+        /// <summary>
         /// Returns a value where the Steam client was installed
         /// </summary>
-        public static string? GetSteamPath
+        [SupportedOSPlatform("windows")]
+        private static string? GetSteamPath
         {
             get
             {
-                using (RegistryKey? key = RegistryUtil.OpenSubKey(Registry.CurrentUser, @"SOFTWARE\Valve\Steam"))
-                {
-                    if (key != null)
-                    {
-                        // make sure the path actually exists before returning the value
-                        if (Directory.Exists(RegistryUtil.GetString(key, "SteamPath")))
-                        {
-                            return RegistryUtil.GetString(key, "SteamPath");
-                        }
-                    }
-                }
-                return null;
+                using var key = RegistryUtil.OpenSubKey(Registry.CurrentUser, @"SOFTWARE\Valve\Steam");
+                if (key == null) return null;
+                // make sure the path actually exists before returning the value
+                return Directory.Exists(RegistryUtil.GetString(key, "SteamPath")) ? RegistryUtil.GetString(key, "SteamPath") : null;
             }
         }
 
         /// <summary>
         /// Returns a value where the "sourcemods" directory is
         /// </summary>
+        [SupportedOSPlatform("windows")]
         public static string? GetSourceModsPath
         {
             get
             {
-                using (RegistryKey? key = RegistryUtil.OpenSubKey(Registry.CurrentUser, @"SOFTWARE\Valve\Steam"))
+                using var key = RegistryUtil.OpenSubKey(Registry.CurrentUser, @"SOFTWARE\Valve\Steam");
+                if (key != null)
                 {
-                    if (key != null)
+                    // make sure the path actually exists before returning the value
+                    if (Directory.Exists(RegistryUtil.GetString(key, "SourceModInstallPath")))
                     {
-                        // make sure the path actually exists before returning the value
-                        if (Directory.Exists(RegistryUtil.GetString(key, "SourceModInstallPath")))
-                        {
-                            return RegistryUtil.GetString(key, "SourceModInstallPath");
-                        }
+                        return RegistryUtil.GetString(key, "SourceModInstallPath");
                     }
                 }
+
                 return null;
             }
         }
@@ -79,6 +110,7 @@ namespace AridityTeam.Base.Util
         /// <summary>
         /// Returns the "Steam/steamapps/common" directory if it exists
         /// </summary>
+        [SupportedOSPlatform("windows")]
         public static string? GetSteamAppsPath
         {
             get
@@ -86,25 +118,16 @@ namespace AridityTeam.Base.Util
                 if (GetSteamPath == null)
                     return null;
 
-                string? _path = Path.Combine(GetSteamPath, "steamapps", "common");
-                if (Directory.Exists(_path))
-                {
-                    return _path;
-                }
-                return null;
+                var path = Path.Combine(GetSteamPath, "steamapps", "common");
+                return Directory.Exists(path) ? path : null;
             }
         }
 
         /// <summary>
         /// Checks if Steam is installed by checking if the registry keys for Steam exists or checking if the Steam installation directory exists
         /// </summary>
-        public static bool IsSteamInstalled
-        {
-            get
-            {
-                return Directory.Exists(GetSteamPath);
-            }
-        }
+        [SupportedOSPlatform("windows")]
+        public static bool IsSteamInstalled => Directory.Exists(GetSteamPath);
 
         /// <summary>
         /// Checks if the specific app ID is installed
@@ -112,17 +135,13 @@ namespace AridityTeam.Base.Util
         /// </summary>
         /// <param name="appId">Steam application to check</param>
         /// <returns>Returns true if it is installed.</returns>
+        [SupportedOSPlatform("windows")]
         public static bool IsAppInstalled(int appId)
         {
-            using (RegistryKey? key = RegistryUtil.OpenSubKey(Registry.CurrentUser, @"SOFTWARE\Valve\Steam\Apps\" + appId))
-            {
-                if (key != null)
-                {
-                    // make sure the path actually exists before returning the value
-                    return RegistryUtil.GetBool(key, "Installed");
-                }
-            }
-            return false;
+            using var key = RegistryUtil.OpenSubKey(Registry.CurrentUser, @"SOFTWARE\Valve\Steam\Apps\" + appId);
+            return key != null &&
+                   // make sure the path actually exists before returning the value
+                   RegistryUtil.GetBool(key, "Installed");
         }
 
         /// <summary>
@@ -133,35 +152,31 @@ namespace AridityTeam.Base.Util
         /// </summary>
         /// <param name="appId">Steam application ID to check</param>
         /// <returns>Returns true if it is updating.</returns>
+        [SupportedOSPlatform("windows")]
         public static bool IsAppUpdating(int appId)
         {
-            using (RegistryKey? key = RegistryUtil.OpenSubKey(Registry.CurrentUser, StringUtil.CombineString(@"SOFTWARE\Valve\Steam\Apps\", appId)))
-            {
-                if (key != null)
-                {
-                    // make sure the path actually exists before returning the value
-                    return RegistryUtil.GetBool(key, "Updating");
-                }
-            }
-            return false;
+            using var key = RegistryUtil.OpenSubKey(Registry.CurrentUser, StringUtil.CombineString(@"SOFTWARE\Valve\Steam\Apps\", appId));
+            return key != null &&
+                   // make sure the path actually exists before returning the value
+                   RegistryUtil.GetBool(key, "Updating");
         }
 
         // note -- for source engine games: use a mutex instead but this is another workaround
         /// <summary>
         /// Checks if the specific app ID is running
-        /// NOTE: If the game/software has a mutex, you can use the Mutex class as an better alternative.
+        /// NOTE: If the game/software has a mutex, you can use the Mutex class as a better alternative.
         /// </summary>
         /// <param name="appId">Steam application ID to check</param>
         /// <returns>Returns true if it is running.</returns>
+        [SupportedOSPlatform("windows")]
         public static bool IsAppRunning(int appId)
         {
-            using (RegistryKey? key = RegistryUtil.OpenSubKey(Registry.CurrentUser, StringUtil.CombineString(@"SOFTWARE\Valve\Steam", appId)))
+            using var key = RegistryUtil.OpenSubKey(Registry.CurrentUser, StringUtil.CombineString(@"SOFTWARE\Valve\Steam", appId));
+            if (key != null)
             {
-                if (key != null)
-                {
-                    return RegistryUtil.GetString(key, "RunningAppID") == appId.ToString();
-                }
+                return RegistryUtil.GetString(key, "RunningAppID") == appId.ToString();
             }
+
             return false;
         }
 
@@ -169,15 +184,14 @@ namespace AridityTeam.Base.Util
         /// Runs a specific app ID
         /// </summary>
         /// <param name="appId">Steam Application (ID) to launch</param>
+        [SupportedOSPlatform("windows")]
         public static void RunApp(int appId)
         {
-            using (Process p = new Process())
-            {
-                p.StartInfo.FileName = GetSteamPath + "/steam.exe";
-                p.StartInfo.UseShellExecute = false;
-                p.StartInfo.Arguments = "-applaunch " + appId;
-                p.Start();
-            }
+            using var p = new Process();
+            p.StartInfo.FileName = GetSteamPath + "/steam.exe";
+            p.StartInfo.UseShellExecute = false;
+            p.StartInfo.Arguments = "-applaunch " + appId;
+            p.Start();
         }
 
         /// <summary>
@@ -185,15 +199,14 @@ namespace AridityTeam.Base.Util
         /// </summary>
         /// <param name="appId">Steam Application (ID) to launch</param>
         /// <param name="args">Extra arguments to launch with</param>
+        [SupportedOSPlatform("windows")]
         public static void RunApp(int appId, string args)
         {
-            using (Process p = new Process())
-            {
-                p.StartInfo.FileName = GetSteamPath + "/steam.exe";
-                p.StartInfo.UseShellExecute = false;
-                p.StartInfo.Arguments = "-applaunch " + appId + " " + args;
-                p.Start();
-            }
+            using var p = new Process();
+            p.StartInfo.FileName = GetSteamPath + "/steam.exe";
+            p.StartInfo.UseShellExecute = false;
+            p.StartInfo.Arguments = "-applaunch " + appId + " " + args;
+            p.Start();
         }
     }
 }

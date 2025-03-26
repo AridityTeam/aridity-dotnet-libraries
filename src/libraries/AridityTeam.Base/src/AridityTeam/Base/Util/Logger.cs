@@ -103,9 +103,12 @@ public class Logger : ILogger
     public void Dispose()
     {
         _sentry?.Dispose();
+        _sentry = null;
         _logMsg?.Dispose();
         _logMsg = null;
     }
+
+    public IDisposable? GetSentryInit() => _sentry;
     
     public LoggingDestination GetDestination()
     {
