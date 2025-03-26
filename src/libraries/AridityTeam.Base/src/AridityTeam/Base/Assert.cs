@@ -114,20 +114,23 @@ public static class Assert
             throw new AssertionFailedException(message ?? $"Assertion failed: expected value ({expected}) is currently inside of the collection");
     }
 
-    public static void DoesThrow<T>(T? expected, Action action, string? message = null)
+    public static void DoesThrow<TException>(Action action, string? message = null) where TException : Exception
     {
-        if (expected == null)
-            throw new AssertionFailedException(message ?? "Assertion failed: expected value is null");
-
         try
         {
             action();
         }
         catch (Exception ex)
         {
-            if (ex.GetType() != expected.GetType())
-                throw new AssertionFailedException(message ?? $"Assertion failed: expected value ({expected}) is not equal to {ex.GetType()}: {ex.Message}");
+            // An unexpected exception was thrown
+            if (ex.GetType() == typeof(TException)) return;
+            throw new AssertionFailedException(message ??
+                                               $"Assertion failed: expected exception of type {typeof(TException).Name}, but got {ex.GetType().Name}: {ex.Message}");
         }
+
+        // If no exception was thrown, fail the assertion
+        throw new AssertionFailedException(message ??
+                                           $"Assertion failed: expected exception of type {typeof(TException).Name} was not thrown.");
     }
 
     public static void IsTrue(bool condition, string? message = null)
