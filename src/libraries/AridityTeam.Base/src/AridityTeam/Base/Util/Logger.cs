@@ -9,6 +9,14 @@
  *
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software.
+ * 
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
  */
 using System;
 using System.Threading;
@@ -18,29 +26,27 @@ using Sentry;
 namespace AridityTeam.Base.Util;
 
 /// <summary>
-/// Ah yes. The so-called "Chromium" logger in ".NET".
+/// Ah, yes. The so-called "Chromium" logger in ".NET".
 /// <para>
 /// This kind of replicates Chromium's logging format + some of the code were just copied from the logger code of Chromium. (just some C++ keywords were changed)
 /// </para>
 /// </summary>
 public class Logger : ILogger
 {
-    private LogMessageHandlerFunction? _logMessageHandler = null;
-    private LoggingSettings? _settings = null;
-    private static Logger? _instance = null;
-    private IDisposable? _sentry = null;
-    //private RemovableConcurrentBag<LoggerBuilder> _loggingExts = new RemovableConcurrentBag<LoggerBuilder>();
-    private static readonly Lock _lock = new Lock();
-    private LogMessage? _logMsg = null;
+    private LogMessageHandlerFunction? _logMessageHandler;
+    private LoggingSettings? _settings;
+    private static Logger? _instance;
+    private IDisposable? _sentry;
+    private static readonly Lock Lock = new Lock();
+    private LogMessage? _logMsg;
 
     public static Logger Instance
     {
         get
         {
-            lock (_lock)
+            lock (Lock)
             {
-                if (_instance == null) _instance = new Logger();
-                return _instance;
+                return _instance ??= new Logger();
             }
         }
     }
@@ -64,13 +70,11 @@ public class Logger : ILogger
     {
         _settings = settings;
 
-        if (settings.EnableSentry == true)
-        {
-            if (settings.SentryOptions == null) return false;
+        if (settings.EnableSentry != true) return true;
+        if (settings.SentryOptions == null) return false;
             
-            _sentry = SentrySdk.Init(settings.SentryOptions);
-        }
-        
+        _sentry = SentrySdk.Init(settings.SentryOptions);
+
         return true;
     }
 
@@ -78,7 +82,7 @@ public class Logger : ILogger
         [CallerFilePath] string filePath = "",
         [CallerLineNumber] int line = 0)
     {
-        if (_logMsg == null) _logMsg = new LogMessage("", filePath, line, (int)severity);
+        _logMsg ??= new LogMessage("", filePath, line, (int)severity);
         _logMsg?.GetWriter()?.WriteLine(message);
         if (_settings?.EnableSentry == true)
             SentrySdk.CaptureMessage(_logMsg?.GetLastOutput() + message, severity.ToSentryLevel());
@@ -90,7 +94,7 @@ public class Logger : ILogger
         [CallerFilePath] string filePath = "",
         [CallerLineNumber] int line = 0)
     {
-        if (_logMsg == null) _logMsg = new LogMessage("", filePath, line, verbosity);
+        _logMsg ??= new LogMessage("", filePath, line, verbosity);
         _logMsg?.GetWriter()?.WriteLine(message);
         _logMsg?.Dispose();
         _logMsg = null;

@@ -27,7 +27,7 @@ public class LoggerTests : IDisposable
         var logger1 = Logger.Instance;
         var logger2 = Logger.Instance;
 
-        Assert.Same(logger1, logger2);
+        Assert.AreEqual(logger1, logger2);
     }
 
     [Fact]
@@ -41,7 +41,7 @@ public class LoggerTests : IDisposable
 
         var result = _logger.InitLogging(settings);
 
-        Assert.True(result);
+        Assert.IsTrue(result);
         // You may want to verify that SentrySdk.Init was called, if you can mock it
     }
 
@@ -56,7 +56,7 @@ public class LoggerTests : IDisposable
 
         var result = _logger.InitLogging(settings);
 
-        Assert.False(result);
+        Assert.IsFalse(result);
     }
 
     [Fact]
@@ -103,7 +103,7 @@ public class LoggerTests : IDisposable
     public void GetDestination_ShouldReturnDefault_WhenSettingsAreNull()
     {
         var destination = _logger.GetDestination();
-        Assert.Equal(LoggingDestination.LogDefault, destination);
+        Assert.AreEqual(LoggingDestination.LogDefault, destination);
     }
 
     [Fact]

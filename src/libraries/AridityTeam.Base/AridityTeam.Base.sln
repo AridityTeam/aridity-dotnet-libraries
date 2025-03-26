@@ -14,7 +14,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{9A721394
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Examples", "Examples", "{87E14CB9-8097-490A-90CD-B90E769341AA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleApp1", "..\..\examples\ConsoleApp1\ConsoleApp1.csproj", "{1EECD576-40D5-4938-8CDF-93DB6A48FCF4}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LoggerExample", "..\..\examples\LoggerExample\LoggerExample.csproj", "{1EECD576-40D5-4938-8CDF-93DB6A48FCF4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HeartBeatExample", "..\..\examples\HeartBeatExample\HeartBeatExample\HeartBeatExample.csproj", "{F47F2CD1-3B88-4A9E-B742-22E7BCA25BAD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AridityTeam.Base.Networking", "..\AridityTeam.Base.Networking\src\AridityTeam.Base.Networking.csproj", "{9E7B3997-85BC-4669-94AB-283BFF5F0C4A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -38,6 +42,14 @@ Global
 		{13DBCA48-A99C-4CFB-A65D-1730B2E97E1B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{13DBCA48-A99C-4CFB-A65D-1730B2E97E1B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{13DBCA48-A99C-4CFB-A65D-1730B2E97E1B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F47F2CD1-3B88-4A9E-B742-22E7BCA25BAD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F47F2CD1-3B88-4A9E-B742-22E7BCA25BAD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F47F2CD1-3B88-4A9E-B742-22E7BCA25BAD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F47F2CD1-3B88-4A9E-B742-22E7BCA25BAD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9E7B3997-85BC-4669-94AB-283BFF5F0C4A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9E7B3997-85BC-4669-94AB-283BFF5F0C4A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9E7B3997-85BC-4669-94AB-283BFF5F0C4A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9E7B3997-85BC-4669-94AB-283BFF5F0C4A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -50,5 +62,7 @@ Global
 		{689CC8C6-F010-4F09-ABD4-65447D843118} = {9A721394-DEEE-47B5-89AE-37B19C48F084}
 		{1EECD576-40D5-4938-8CDF-93DB6A48FCF4} = {87E14CB9-8097-490A-90CD-B90E769341AA}
 		{13DBCA48-A99C-4CFB-A65D-1730B2E97E1B} = {ECE1533E-420F-4DA1-A400-9A236EBD832A}
+		{F47F2CD1-3B88-4A9E-B742-22E7BCA25BAD} = {87E14CB9-8097-490A-90CD-B90E769341AA}
+		{9E7B3997-85BC-4669-94AB-283BFF5F0C4A} = {ECE1533E-420F-4DA1-A400-9A236EBD832A}
 	EndGlobalSection
 EndGlobal

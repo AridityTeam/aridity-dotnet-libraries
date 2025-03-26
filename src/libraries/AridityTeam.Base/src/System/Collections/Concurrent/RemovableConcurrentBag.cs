@@ -9,6 +9,14 @@
  *
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software.
+ * 
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
  */
 using System;
 using System.Collections.Generic;
@@ -27,7 +35,7 @@ public class RemovableConcurrentBag<T> : ConcurrentBag<T?>
     {
     }
 
-    public RemovableConcurrentBag(IEnumerable<T?> collection) : base(collection)
+    protected RemovableConcurrentBag(IEnumerable<T?> collection) : base(collection)
     {
     }
 
@@ -51,28 +59,22 @@ public class RemovableConcurrentBag<T> : ConcurrentBag<T?>
     public bool Remove(T? item)
     {
         var tempList = new List<T>();
-        bool found = false;
+        var found = false;
 
-        while (TryTake(out T? result))
+        while (TryTake(out var result))
         {
             if (result == null)
                 return false;
 
             if (!result.Equals(item))
-            {
                 tempList.Add(result); // Collect items that are not being removed
-            }
             else
-            {
                 found = true; // Item found and removed
-            }
         }
 
         // Re-add the items that were not removed
         foreach (var tempItem in tempList)
-        {
             Add(tempItem);
-        }
 
         return found;
     }
