@@ -1,0 +1,16 @@
+# ide-related files/folders
+.vs
+.vscode
+.idea
+*.suo
+*.user
+
+# build output
+[Rr]elease/
+[Dd]ebug/
+x64/
+x86/
+bin/
+obj/
+
+
