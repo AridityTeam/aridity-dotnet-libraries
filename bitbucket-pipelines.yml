@@ -12,13 +12,7 @@ pipelines:
               - cd src/libraries/AridityTeam.Base
               - dotnet restore
               - dotnet build --no-restore --configuration Release
-              - dotnet test --no-build --configuration Release --logger:"trx;LogFileName=test_results.trx"
-        - step:
-            name: Convert TRX to JUnit
-            script:
-              - REPORTS_PATH=./test-reports/build_${BITBUCKET_BUILD_NUMBER}
-              - dotnet tool install -g trx2junit
-              - trx2junit test_results.trx --output $REPORTS_PATH/junit.xml
+              - dotnet test --no-build --configuration Release
         - step:
             name: Lint the code
             caches:
