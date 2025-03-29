@@ -27,21 +27,20 @@ namespace AridityTeam.Base.ProcessUtil
     public class MemoryPool
     {
         private readonly ConcurrentBag<IntPtr> _freeBlocks;
-        private readonly int _blockSize;
         private readonly int _initialBlockCount;
 
-        public int BlockSize => _blockSize;
+        public int BlockSize { get; }
 
         public MemoryPool(int blockSize, int initialBlockCount)
         {
-            _blockSize = blockSize;
+            BlockSize = blockSize;
             _initialBlockCount = initialBlockCount;
-            _freeBlocks = new ConcurrentBag<IntPtr>();
+            _freeBlocks = [];
 
             // Pre-allocate memory blocks
             for (var i = 0; i < _initialBlockCount; i++)
             {
-                _freeBlocks.Add(Marshal.AllocHGlobal(_blockSize));
+                _freeBlocks.Add(Marshal.AllocHGlobal(BlockSize));
             }
         }
 
@@ -53,7 +52,7 @@ namespace AridityTeam.Base.ProcessUtil
             }
 
             // If no free blocks are available, allocate a new one
-            return Marshal.AllocHGlobal(_blockSize);
+            return Marshal.AllocHGlobal(BlockSize);
         }
 
         public void Return(IntPtr block)

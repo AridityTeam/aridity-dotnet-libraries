@@ -18,7 +18,6 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-using System;
 using System.IO;
 using System.Threading.Tasks;
 
@@ -27,13 +26,16 @@ namespace AridityTeam.Base.Tests.ResourceMgrTest
     public class ResourceManagerTests
     {
         [Fact]
-        public void PrecacheTest()
+        public void Precache_AreEqualTest()
         {
             var resourceMgr = new ResourceManager();
             
             Task.Run(async () =>
             {
-                await resourceMgr.LoadResourceAsync(Path.Combine("./Images/bf_logo.png"), true);
+                var img1 = await resourceMgr.LoadResourceAsync(Path.Combine("./Images/bf_logo.png"), true);
+                var img2 = await resourceMgr.LoadResourceAsync(Path.Combine("./Images/bf_logo.png"), true);
+                
+                Assert.AreEqual(img1, img2);
             });
         }
     }

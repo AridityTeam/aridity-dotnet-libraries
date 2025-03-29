@@ -25,7 +25,15 @@ namespace AridityTeam.Base.Internal;
 
 internal class AssertionFailedException : Exception
 {
-    public AssertionFailedException(string methodName, Expression expression) : base($"{methodName}({expression})")
+    public AssertionFailedException(string methodName, Expression expression) : base($"Assertion failed: {methodName}({expression})")
+    {
+    }
+    
+    public AssertionFailedException(object expected, object actual) : base($"Assertion failed: expected {expected} but was {actual}")
+    {
+    }
+    
+    public AssertionFailedException(object type, object expected, object actual) : base($"Assertion failed: expected value of {type} was {expected} but was {actual}")
     {
     }
 

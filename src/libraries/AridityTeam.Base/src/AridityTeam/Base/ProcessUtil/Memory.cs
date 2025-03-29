@@ -32,15 +32,15 @@ namespace AridityTeam.Base.ProcessUtil
     /// </summary>
     public class Memory : IMemory
     {
-        private readonly RemovableConcurrentBag<IntPtr> _allocatedPointers = new RemovableConcurrentBag<IntPtr>();
+        private readonly RemovableConcurrentBag<IntPtr> _allocatedPointers = [];
         private readonly MemoryPool _memoryPool;
-        private readonly ConcurrentDictionary<IntPtr, int> _blockSizes = new ConcurrentDictionary<IntPtr, int>();
+        private readonly ConcurrentDictionary<IntPtr, int> _blockSizes = new();
 
         // Performance tracking data
-        private readonly List<long> _allocationTimes = new List<long>();
-        private readonly List<long> _deallocationTimes = new List<long>();
-        private readonly List<long> _reallocationTimes = new List<long>();
-        private long _totalAllocatedBytes = 0;
+        private readonly List<long> _allocationTimes = [];
+        private readonly List<long> _deallocationTimes = [];
+        private readonly List<long> _reallocationTimes = [];
+        private long _totalAllocatedBytes;
         private readonly long _totalFreedBytes = 0;
 
         /// <summary>

@@ -23,21 +23,19 @@ using System.Text;
 
 namespace AridityTeam.Base.Util
 {
-    public class StringUtil
+    public abstract class StringUtil
     {
         public static string? CombineString(params object?[] args)
         {
             if (args == null)
-            {
                 throw new ArgumentNullException(nameof(args), "Arguments cannot be null");
-            }
 
-            var _final = new StringBuilder();
+            var final = new StringBuilder();
             foreach (var param in args)
             {
-                _final?.Append(param);
+                final?.Append(param);
             }
-            return _final?.ToString();
+            return final?.ToString();
         }
     }
 }

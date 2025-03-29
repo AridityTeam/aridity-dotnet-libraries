@@ -21,5 +21,5 @@ public class LoggingSettings
     /// <summary>
     /// Sets the Sentry SDK options.
     /// </summary>
-    public SentryOptions? SentryOptions { get; set; } = new SentryOptions();
+    public SentryOptions? SentryOptions { get; set; } = new();
 }

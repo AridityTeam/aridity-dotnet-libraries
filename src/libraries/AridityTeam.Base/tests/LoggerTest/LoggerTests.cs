@@ -44,14 +44,12 @@ public class LoggerTests
 
         logger.InitLogging(settings);
 
-        using (var sw = new StringWriter())
-        {
-            Console.SetOut(sw);
-            logger.Log(LogSeverity.LogInfo, "Test log message");
+        using var sw = new StringWriter();
+        Console.SetOut(sw);
+        logger.Log(LogSeverity.LogInfo, "Test log message");
 
-            var result = sw.ToString().Trim();
-            Assert.Contains("Test log message", result);
-        }
+        var result = sw.ToString().Trim();
+        Assert.Contains("Test log message", result);
     }
 
     [Fact]

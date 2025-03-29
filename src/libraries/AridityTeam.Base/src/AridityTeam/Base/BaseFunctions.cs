@@ -30,6 +30,6 @@ public static class BaseFunctions
     }
     public static void ImmediateCrash(string msg)
     {
-        Environment.FailFast("Immediate crash: " + msg);
+        Environment.FailFast($"Immediate crash: {msg}");
     }
 }

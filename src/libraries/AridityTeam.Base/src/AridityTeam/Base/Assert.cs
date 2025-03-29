@@ -22,6 +22,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using AridityTeam.Base.Internal;
+using AridityTeam.Base.Util;
 
 namespace AridityTeam.Base;
 
@@ -35,13 +36,14 @@ public static class Assert
     /// </summary>
     /// <param name="expected">Expected type</param>
     /// <param name="actual">Actual type</param>
+    /// <param name="message">Assertion message to throw when the assert failed</param>
     /// <typeparam name="T">Any type bro.</typeparam>
     /// <exception cref="AssertionFailedException">Throws when the expected type is not equal to the actual type.</exception>
-    public static void AreEqual<T>(T expected, T actual)
+    public static void AreEqual<T>(T expected, T actual, string? message = null)
     {
         if (!Equals(expected, actual))
         {
-            throw new AssertionFailedException($"Expected: {expected}, but was: {actual}");
+            throw new AssertionFailedException(message ?? $"Expected: {expected}, but was: {actual}");
         }
     }
     
@@ -50,13 +52,14 @@ public static class Assert
     /// </summary>
     /// <param name="expected">Expected type</param>
     /// <param name="actual">Actual type</param>
+    /// <param name="message">Assertion message to throw when the assert failed</param>
     /// <typeparam name="T">Any type bro.</typeparam>
     /// <exception cref="AssertionFailedException">Throws when of course, the expected type is actually EQUAL to the actual type.</exception>
-    public static void AreNotEqual<T>(T expected, T actual)
+    public static void AreNotEqual<T>(T expected, T actual, string? message = null)
     {
         if (Equals(expected, actual))
         {
-            throw new AssertionFailedException($"Expected: {expected} not equal to {actual}");
+            throw new AssertionFailedException(message ?? $"Assertion failed: Expected: {expected} not equal to {actual}");
         }
     }
 
@@ -65,12 +68,12 @@ public static class Assert
     /// </summary>
     /// <param name="expected"></param>
     /// <param name="actual"></param>
-    /// <param name="message"></param>
+    /// <param name="message">Assertion message to throw when the assert failed</param>
     /// <exception cref="AssertionFailedException"></exception>
     public static void Contains(string expected, string actual, string? message = null)
     {
         if (!actual.Contains(expected)) 
-            throw new AssertionFailedException(message ?? $"Assertion failed: expected for {expected} to be inside of the collection");
+            throw new AssertionFailedException(message ?? $"Assertion failed: expected for {expected} to be inside of the actual string");
     }
     
     /// <summary>
@@ -78,12 +81,12 @@ public static class Assert
     /// </summary>
     /// <param name="expected"></param>
     /// <param name="actual"></param>
-    /// <param name="message"></param>
+    /// <param name="message">Assertion message to throw when the assert failed</param>
     /// <exception cref="AssertionFailedException"></exception>
     public static void DoesNotContain(string expected, string actual, string? message = null)
     {
         if (actual.Contains(expected)) 
-            throw new AssertionFailedException(message ?? $"Assertion failed: expected for {expected} to be inside of the collection");
+            throw new AssertionFailedException(message ?? $"Assertion failed: expected for {expected} to be inside of the actual string");
     }
     
     /// <summary>
@@ -91,7 +94,7 @@ public static class Assert
     /// </summary>
     /// <param name="expected"></param>
     /// <param name="collection"></param>
-    /// <param name="message"></param>
+    /// <param name="message">Assertion message to throw when the assert failed</param>
     /// <typeparam name="T"></typeparam>
     /// <exception cref="AssertionFailedException"></exception>
     public static void Contains<T>(T? expected, IEnumerable<T?> collection, string? message = null)
@@ -105,7 +108,7 @@ public static class Assert
     /// </summary>
     /// <param name="expected"></param>
     /// <param name="collection"></param>
-    /// <param name="message"></param>
+    /// <param name="message">Assertion message to throw when the assert failed</param>
     /// <typeparam name="T"></typeparam>
     /// <exception cref="AssertionFailedException"></exception>
     public static void DoesNotContain<T>(T expected, IEnumerable<T> collection, string? message = null)
@@ -114,7 +117,14 @@ public static class Assert
             throw new AssertionFailedException(message ?? $"Assertion failed: expected value ({expected}) is currently inside of the collection");
     }
 
-    public static void DoesThrow<TException>(Action action, string? message = null) where TException : Exception
+    /// <summary>
+    /// Checks if an action throws the expected exception.
+    /// </summary>
+    /// <param name="action">Action to test</param>
+    /// <param name="message">Assertion message to throw when the assert failed</param>
+    /// <typeparam name="TException"></typeparam>
+    /// <exception cref="AssertionFailedException">Throws when the excepted exception isn't thrown</exception>
+    public static void DoesThrow<TException>(Action action, string? message = null)
     {
         try
         {
@@ -163,5 +173,17 @@ public static class Assert
         {
             throw new AssertionFailedException(message ?? "Assertion failed: expected not null, but was null.");
         }
+    }
+
+    public static void IfResultSuccess<T>(Func<Result<T>> expected, string? message = null)
+    {
+        var res = expected.Invoke();
+        if (!res.IsSuccess) throw new AssertionFailedException(res.IsSuccess, true, false);
+    }
+    
+    public static void IfResultFailure<T>(Func<Result<T>> expected, string? message = null)
+    {
+        var res = expected.Invoke();
+        if (res.IsSuccess) throw new AssertionFailedException(res.IsSuccess, false, true);
     }
 }

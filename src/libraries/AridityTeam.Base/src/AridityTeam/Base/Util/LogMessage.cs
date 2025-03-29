@@ -40,7 +40,7 @@ public class LogMessage : IDisposable
         "FATAL"
     ];
 
-    private readonly System.Threading.Lock _lock = new System.Threading.Lock();
+    private readonly System.Threading.Lock _lock = new();
     
     private TextWriter? _writer;
     private readonly string _filePath;

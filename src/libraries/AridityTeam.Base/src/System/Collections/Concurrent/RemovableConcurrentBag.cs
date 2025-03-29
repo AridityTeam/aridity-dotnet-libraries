@@ -29,7 +29,7 @@ namespace System.Collections.Concurrent;
 /// <typeparam name="T"></typeparam>
 public class RemovableConcurrentBag<T> : ConcurrentBag<T?>
 {
-    private readonly Threading.Lock _lock = new Threading.Lock();
+    private readonly Threading.Lock _lock = new();
 
     public RemovableConcurrentBag() : base()
     {

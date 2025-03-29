@@ -20,6 +20,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LoggerExample", "..\..\exam
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HeartBeatExample", "..\..\examples\HeartBeatExample\HeartBeatExample\HeartBeatExample.csproj", "{F47F2CD1-3B88-4A9E-B742-22E7BCA25BAD}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConCommandExample", "..\..\examples\ConCommandExample\ConCommandExample.csproj", "{9FB576D0-8270-4466-99F7-DBD30D7A32AB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -50,6 +52,10 @@ Global
 		{9E7B3997-85BC-4669-94AB-283BFF5F0C4A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9E7B3997-85BC-4669-94AB-283BFF5F0C4A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9E7B3997-85BC-4669-94AB-283BFF5F0C4A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9FB576D0-8270-4466-99F7-DBD30D7A32AB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9FB576D0-8270-4466-99F7-DBD30D7A32AB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9FB576D0-8270-4466-99F7-DBD30D7A32AB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9FB576D0-8270-4466-99F7-DBD30D7A32AB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -64,5 +70,6 @@ Global
 		{13DBCA48-A99C-4CFB-A65D-1730B2E97E1B} = {ECE1533E-420F-4DA1-A400-9A236EBD832A}
 		{F47F2CD1-3B88-4A9E-B742-22E7BCA25BAD} = {87E14CB9-8097-490A-90CD-B90E769341AA}
 		{9E7B3997-85BC-4669-94AB-283BFF5F0C4A} = {ECE1533E-420F-4DA1-A400-9A236EBD832A}
+		{9FB576D0-8270-4466-99F7-DBD30D7A32AB} = {87E14CB9-8097-490A-90CD-B90E769341AA}
 	EndGlobalSection
 EndGlobal

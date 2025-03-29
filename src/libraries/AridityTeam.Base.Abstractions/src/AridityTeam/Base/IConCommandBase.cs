@@ -26,6 +26,6 @@ namespace AridityTeam.Base
         /// Gets the <see cref="IConCommandBase"/>'s flags.
         /// </summary>
         /// <returns></returns>
-        public FCVAR? GetFlags();
+        public Fcvar? GetFlags();
     }
 }

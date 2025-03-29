@@ -10,10 +10,10 @@ namespace AridityTeam.Base
 {
     public class ResourceManager
     {
-        private readonly ConcurrentDictionary<string, IntPtr> _cache = new ConcurrentDictionary<string, IntPtr>();
-        private readonly Memory _memory = new Memory();
+        private readonly ConcurrentDictionary<string, IntPtr> _cache = new();
+        private readonly Memory _memory = new();
         private readonly int _maxCacheSize = 100 * 1024 * 1024; // 100 MB
-        private int _currentCacheSize = 0;
+        private int _currentCacheSize;
 
         public async Task<IntPtr> LoadResourceAsync(string filePath, bool precache = false)
         {
@@ -35,17 +35,15 @@ namespace AridityTeam.Base
         private async Task<IntPtr> LoadAndCacheResourceAsync(string filePath)
         {
             var dataPtr = await LoadResourceFromDiskAsync(filePath);
-            if (dataPtr != IntPtr.Zero)
+            if (dataPtr == IntPtr.Zero) return dataPtr;
+            var dataSize = GetResourceSize(filePath);
+            if (_currentCacheSize + dataSize > _maxCacheSize)
             {
-                var dataSize = GetResourceSize(filePath);
-                if (_currentCacheSize + dataSize > _maxCacheSize)
-                {
-                    EvictOldResources(); // Free up space in the cache
-                }
-
-                _cache[filePath] = dataPtr;
-                _currentCacheSize += dataSize;
+                EvictOldResources(); // Free up space in the cache
             }
+
+            _cache[filePath] = dataPtr;
+            _currentCacheSize += dataSize;
             return dataPtr;
         }
 

@@ -2,13 +2,14 @@ using System;
 
 namespace AridityTeam.Base.Util;
 
-public static class ExceptionHandler
+public static class ExceptionHelper
 {
-    public static void LogException(Exception ex)
+    private static void LogException(Exception ex)
     {
+        using var log = new Logger();
         // Here you can implement your logging logic (e.g., log to a file, database, etc.)
-        Console.WriteLine($"Exception: {ex.Message}");
-        Console.WriteLine($"Stack Trace: {ex.StackTrace}");
+        log.Log(LogSeverity.LogError, $"Exception: {ex.Message}");
+        log.Log(LogSeverity.LogError, $"Stack Trace: {ex.StackTrace}");
     }
 
     public static Result<T> HandleException<T>(Func<Result<T>> func)

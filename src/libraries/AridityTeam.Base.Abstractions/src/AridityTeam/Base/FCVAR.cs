@@ -20,10 +20,10 @@
  */
 namespace AridityTeam.Base
 {
-    public enum FCVAR : int
+    public enum Fcvar : int
     {
-        NONE = 0,
-        DEVELOPMENT_ONLY = (1<<0),
-        ARCHIVE = (1<<1),
+        LogNone = 0,
+        LogDevelopmentOnly = (1<<0),
+        LogArchive = (1<<1),
     }
 }

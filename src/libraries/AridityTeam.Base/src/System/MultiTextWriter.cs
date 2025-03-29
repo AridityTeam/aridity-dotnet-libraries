@@ -31,48 +31,45 @@ namespace System
     /// </summary>
     public class MultiTextWriter : TextWriter
     {
-        private readonly IEnumerable<TextWriter> writers;
+        private readonly IEnumerable<TextWriter> _writers;
         public MultiTextWriter(IEnumerable<TextWriter> writers)
         {
-            this.writers = writers.ToList();
+            this._writers = writers.ToList();
         }
         public MultiTextWriter(params TextWriter[] writers)
         {
-            this.writers = writers;
+            this._writers = writers;
         }
 
         public void AddWriter(TextWriter w)
         {
-            writers.Append(w);
+            _writers.Append(w);
         }
 
         public override void Write(char value)
         {
-            foreach (var writer in writers)
+            foreach (var writer in _writers)
                 writer.Write(value);
         }
 
         public override void Write(string? value)
         {
-            foreach (var writer in writers)
+            foreach (var writer in _writers)
                 writer.Write(value);
         }
 
         public override void Flush()
         {
-            foreach (var writer in writers)
+            foreach (var writer in _writers)
                 writer.Flush();
         }
 
         public override void Close()
         {
-            foreach (var writer in writers)
+            foreach (var writer in _writers)
                 writer.Close();
         }
 
-        public override Encoding Encoding
-        {
-            get { return Encoding.ASCII; }
-        }
+        public override Encoding Encoding => Encoding.ASCII;
     }
 }

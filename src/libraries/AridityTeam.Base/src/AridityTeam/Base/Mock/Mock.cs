@@ -55,7 +55,7 @@ public class Mock<T> : DispatchProxy where T : class
         var methodName = GetMethodName(expression);
         if (!_returns.ContainsKey(methodName))
         {
-            _returns[methodName] = new List<object>();
+            _returns[methodName] = [];
         }
     }
 

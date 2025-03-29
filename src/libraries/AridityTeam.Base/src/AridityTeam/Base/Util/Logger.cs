@@ -37,7 +37,7 @@ public class Logger : ILogger
     private LoggingSettings? _settings;
     private static Logger? _instance;
     private IDisposable? _sentry;
-    private static readonly Lock Lock = new Lock();
+    private static readonly Lock Lock = new();
     private LogMessage? _logMsg;
 
     public static Logger Instance
@@ -88,6 +88,19 @@ public class Logger : ILogger
             SentrySdk.CaptureMessage(_logMsg?.GetLastOutput() + message, severity.ToSentryLevel());
         _logMsg?.Dispose();
         _logMsg = null;
+    }
+    public Result<bool> LogResultBool(LogSeverity severity, string message,
+        [CallerFilePath] string filePath = "",
+        [CallerLineNumber] int line = 0)
+    {
+        _logMsg ??= new LogMessage("", filePath, line, (int)severity);
+        _logMsg?.GetWriter()?.WriteLine(message);
+        if (_settings?.EnableSentry == true)
+            SentrySdk.CaptureMessage(_logMsg?.GetLastOutput() + message, severity.ToSentryLevel());
+        _logMsg?.Dispose();
+        _logMsg = null;
+
+        return Result<bool>.Success(true);
     }
 
     public void VLog(string message, int verbosity,
