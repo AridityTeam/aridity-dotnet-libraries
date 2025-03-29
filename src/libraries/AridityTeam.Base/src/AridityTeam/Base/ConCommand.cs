@@ -19,6 +19,7 @@
  * SOFTWARE.
  */
 using System;
+using AridityTeam.Base.Util;
 
 namespace AridityTeam.Base
 {
@@ -71,10 +72,17 @@ namespace AridityTeam.Base
 
         public void Execute(ConCommandExecuteHandler? callback, ConCommandArgs? args)
         {
-            if (callback == null) throw new ArgumentNullException(nameof(callback), "Parameter is null!");
-            if (args == null) throw new ArgumentNullException(nameof(args), "Parameter is null!");
+            try
+            {
+                if (callback == null) throw new ArgumentNullException(nameof(callback), "Parameter is null!");
+                if (args == null) throw new ArgumentNullException(nameof(args), "Parameter is null!");
 
-            callback?.Invoke(args);
+                callback.Invoke(args);
+            }
+            catch (Exception e)
+            {
+                new Logger().Log(LogSeverity.LogError, $"The command \"{_name}\" threw an exception: \"{e.Message}\"");
+            }
         }
 
         public string? GetName()

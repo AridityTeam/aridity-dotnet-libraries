@@ -3,7 +3,7 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AridityTeam.Base.Networking;
+namespace AridityTeam.Base;
 
 public class HttpClientHelper
 {

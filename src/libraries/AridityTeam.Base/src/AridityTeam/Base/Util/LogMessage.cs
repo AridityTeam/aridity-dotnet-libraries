@@ -29,7 +29,7 @@ namespace AridityTeam.Base.Util;
 /// <para>https://github.com/chromium/mini_chromium/blob/main/base/logging.cc</para>
 /// <para>https://github.com/chromium/mini_chromium/blob/main/base/logging.h#L95</para>
 /// </summary>
-public class LogMessage : IDisposable
+internal class LogMessage : IDisposable
 {
     private readonly string[] _logSeverityNames =
     [
@@ -50,7 +50,7 @@ public class LogMessage : IDisposable
     private int? _messageStart;
     private string? _output;
     
-    public LogMessage(string function, string filePath, int line, int severity)
+    public LogMessage(string filePath, int line, int severity)
     {
         _writer = Console.Out;
         _filePath = filePath;
@@ -58,9 +58,9 @@ public class LogMessage : IDisposable
         _output = null;
         _line = line;
         _severity = (LogSeverity)severity;
-        Init(function);
+        Init();
     }
-    public LogMessage(string function, string filePath, int line, string result)
+    public LogMessage(string filePath, int line, string result)
     {
         _writer = Console.Out;
         _filePath = filePath;
@@ -68,7 +68,7 @@ public class LogMessage : IDisposable
         _messageStart = 0;
         _output = null;
         _severity = LogSeverity.LogFatal;
-        Init(function);
+        Init();
         _writer.WriteLine("Check failed: " + result + ".");
     }
 
@@ -93,10 +93,31 @@ public class LogMessage : IDisposable
         return _filePath;
     }
 
-    private void Init(string function = "")
+    private void Init()
     {
         lock (_lock)
         {
+            switch (_severity)
+            {
+                case LogSeverity.LogInfo:
+                case LogSeverity.LogVerbose:
+                    Console.BackgroundColor = ConsoleColor.DarkBlue;
+                    Console.ForegroundColor = ConsoleColor.White;
+                    break;
+                case LogSeverity.LogWarning:
+                    Console.BackgroundColor = ConsoleColor.DarkYellow;
+                    Console.ForegroundColor = ConsoleColor.White;
+                    break;
+                case LogSeverity.LogError:
+                case LogSeverity.LogErrorReport:
+                case LogSeverity.LogFatal:
+                    Console.BackgroundColor = ConsoleColor.DarkRed;
+                    Console.ForegroundColor = ConsoleColor.White;
+                    break;
+                default:
+                    Console.ResetColor();
+                    break;
+            }
             var destination = Logger.Instance.GetDestination();
             var strBuilder = new StringBuilder();
             var fileName = _filePath;
@@ -150,13 +171,13 @@ public class LogMessage : IDisposable
             
             var localTime = DateTime.Now;
             
-            strBuilder.Append(localTime.Year +
-                           localTime.Month +
-                           localTime.Day +
+            strBuilder.Append(localTime.Year.ToString() +
+                           localTime.Month.ToString() +
+                           localTime.Day.ToString() +
                            "," +
-                           localTime.Hour +
-                           localTime.Minute +
-                           localTime.Second +
+                           localTime.Hour.ToString() +
+                           localTime.Minute.ToString() +
+                           localTime.Second.ToString() +
                            "." + localTime.Millisecond +
                            ":");
 
@@ -173,13 +194,16 @@ public class LogMessage : IDisposable
                            fileName +
                            ":" +
                            _line +
-                           "] ");
+                           "]");
             
             _output = strBuilder.ToString();
             Debug.WriteLine("The output of the log message: "+_output,"Logger");
             _writer?.Write(_output);
 
             _messageStart = _writer?.ToString()?.Length;
+            Console.ResetColor();
+            
+            _writer?.Write(' ');
         }
     }
 

@@ -61,11 +61,6 @@ public class Logger : ILogger
         return int.MaxValue;
     }
 
-    public void SetLogMessage(LogMessage msg)
-    {
-        _logMsg = msg;
-    }
-
     public bool InitLogging(LoggingSettings settings)
     {
         _settings = settings;
@@ -82,32 +77,38 @@ public class Logger : ILogger
         [CallerFilePath] string filePath = "",
         [CallerLineNumber] int line = 0)
     {
-        _logMsg ??= new LogMessage("", filePath, line, (int)severity);
+        _logMsg ??= new LogMessage(filePath, line, (int)severity);
+        switch (severity)
+        {
+            case LogSeverity.LogInfo:
+            case LogSeverity.LogVerbose:
+                Console.ForegroundColor = ConsoleColor.Blue;
+                break;
+            case LogSeverity.LogWarning:
+                Console.ForegroundColor = ConsoleColor.Yellow;
+                break;
+            case LogSeverity.LogError:
+            case LogSeverity.LogErrorReport:
+            case LogSeverity.LogFatal:
+                Console.ForegroundColor = ConsoleColor.Red;
+                break;
+            default:
+                Console.ResetColor();
+                break;
+        }
         _logMsg?.GetWriter()?.WriteLine(message);
+        Console.ResetColor();
         if (_settings?.EnableSentry == true)
             SentrySdk.CaptureMessage(_logMsg?.GetLastOutput() + message, severity.ToSentryLevel());
         _logMsg?.Dispose();
         _logMsg = null;
-    }
-    public Result<bool> LogResultBool(LogSeverity severity, string message,
-        [CallerFilePath] string filePath = "",
-        [CallerLineNumber] int line = 0)
-    {
-        _logMsg ??= new LogMessage("", filePath, line, (int)severity);
-        _logMsg?.GetWriter()?.WriteLine(message);
-        if (_settings?.EnableSentry == true)
-            SentrySdk.CaptureMessage(_logMsg?.GetLastOutput() + message, severity.ToSentryLevel());
-        _logMsg?.Dispose();
-        _logMsg = null;
-
-        return Result<bool>.Success(true);
     }
 
     public void VLog(string message, int verbosity,
         [CallerFilePath] string filePath = "",
         [CallerLineNumber] int line = 0)
     {
-        _logMsg ??= new LogMessage("", filePath, line, verbosity);
+        _logMsg ??= new LogMessage(filePath, line, verbosity);
         _logMsg?.GetWriter()?.WriteLine(message);
         _logMsg?.Dispose();
         _logMsg = null;
