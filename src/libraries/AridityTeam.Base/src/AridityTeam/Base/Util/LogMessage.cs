@@ -49,10 +49,12 @@ internal class LogMessage : IDisposable
     private readonly LogSeverity _severity;
     private int? _messageStart;
     private string? _output;
+    private bool? _enableLoggingColors;
     
-    public LogMessage(string filePath, int line, int severity)
+    public LogMessage(bool? enableColors, string filePath, int line, int severity)
     {
         _writer = Console.Out;
+        _enableLoggingColors = enableColors;
         _filePath = filePath;
         _messageStart = 0;
         _output = null;
@@ -60,9 +62,10 @@ internal class LogMessage : IDisposable
         _severity = (LogSeverity)severity;
         Init();
     }
-    public LogMessage(string filePath, int line, string result)
+    public LogMessage(bool? enableColors, string filePath, int line, string result)
     {
         _writer = Console.Out;
+        _enableLoggingColors = enableColors;
         _filePath = filePath;
         _line = line;
         _messageStart = 0;
@@ -97,26 +100,29 @@ internal class LogMessage : IDisposable
     {
         lock (_lock)
         {
-            switch (_severity)
+            if (_enableLoggingColors == true)
             {
-                case LogSeverity.LogInfo:
-                case LogSeverity.LogVerbose:
-                    Console.BackgroundColor = ConsoleColor.DarkBlue;
-                    Console.ForegroundColor = ConsoleColor.White;
-                    break;
-                case LogSeverity.LogWarning:
-                    Console.BackgroundColor = ConsoleColor.DarkYellow;
-                    Console.ForegroundColor = ConsoleColor.White;
-                    break;
-                case LogSeverity.LogError:
-                case LogSeverity.LogErrorReport:
-                case LogSeverity.LogFatal:
-                    Console.BackgroundColor = ConsoleColor.DarkRed;
-                    Console.ForegroundColor = ConsoleColor.White;
-                    break;
-                default:
-                    Console.ResetColor();
-                    break;
+                switch (_severity)
+                {
+                    case LogSeverity.LogInfo:
+                    case LogSeverity.LogVerbose:
+                        Console.BackgroundColor = ConsoleColor.DarkBlue;
+                        Console.ForegroundColor = ConsoleColor.White;
+                        break;
+                    case LogSeverity.LogWarning:
+                        Console.BackgroundColor = ConsoleColor.DarkYellow;
+                        Console.ForegroundColor = ConsoleColor.White;
+                        break;
+                    case LogSeverity.LogError:
+                    case LogSeverity.LogErrorReport:
+                    case LogSeverity.LogFatal:
+                        Console.BackgroundColor = ConsoleColor.DarkRed;
+                        Console.ForegroundColor = ConsoleColor.White;
+                        break;
+                    default:
+                        Console.ResetColor();
+                        break;
+                }
             }
             var destination = Logger.Instance.GetDestination();
             var strBuilder = new StringBuilder();

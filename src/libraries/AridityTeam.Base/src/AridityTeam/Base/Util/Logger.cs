@@ -77,25 +77,29 @@ public class Logger : ILogger
         [CallerFilePath] string filePath = "",
         [CallerLineNumber] int line = 0)
     {
-        _logMsg ??= new LogMessage(filePath, line, (int)severity);
-        switch (severity)
+        _logMsg ??= new LogMessage(_settings?.EnableColorLogging, filePath, line, (int)severity);
+        if (_settings?.EnableColorLogging == true)
         {
-            case LogSeverity.LogInfo:
-            case LogSeverity.LogVerbose:
-                Console.ForegroundColor = ConsoleColor.Blue;
-                break;
-            case LogSeverity.LogWarning:
-                Console.ForegroundColor = ConsoleColor.Yellow;
-                break;
-            case LogSeverity.LogError:
-            case LogSeverity.LogErrorReport:
-            case LogSeverity.LogFatal:
-                Console.ForegroundColor = ConsoleColor.Red;
-                break;
-            default:
-                Console.ResetColor();
-                break;
+            switch (severity)
+            {
+                case LogSeverity.LogInfo:
+                case LogSeverity.LogVerbose:
+                    Console.ForegroundColor = ConsoleColor.Blue;
+                    break;
+                case LogSeverity.LogWarning:
+                    Console.ForegroundColor = ConsoleColor.Yellow;
+                    break;
+                case LogSeverity.LogError:
+                case LogSeverity.LogErrorReport:
+                case LogSeverity.LogFatal:
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    break;
+                default:
+                    Console.ResetColor();
+                    break;
+            }
         }
+
         _logMsg?.GetWriter()?.WriteLine(message);
         Console.ResetColor();
         if (_settings?.EnableSentry == true)
@@ -108,7 +112,7 @@ public class Logger : ILogger
         [CallerFilePath] string filePath = "",
         [CallerLineNumber] int line = 0)
     {
-        _logMsg ??= new LogMessage(filePath, line, verbosity);
+        _logMsg ??= new LogMessage(_settings?.EnableColorLogging, filePath, line, verbosity);
         _logMsg?.GetWriter()?.WriteLine(message);
         _logMsg?.Dispose();
         _logMsg = null;

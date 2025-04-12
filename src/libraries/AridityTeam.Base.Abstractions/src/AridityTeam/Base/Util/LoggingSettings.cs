@@ -22,4 +22,9 @@ public class LoggingSettings
     /// Sets the Sentry SDK options.
     /// </summary>
     public SentryOptions? SentryOptions { get; set; } = new();
+    
+    /// <summary>
+    /// Enables colors on every log message depending on their severity.
+    /// </summary>
+    public bool EnableColorLogging { get; set; } = false;
 }
