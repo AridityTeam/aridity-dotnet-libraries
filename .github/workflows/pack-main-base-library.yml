@@ -8,9 +8,10 @@ on:
 env:
   MAIN_BASE_SLN: "src/libraries/AridityTeam.Base/src/AridityTeam.Base.csproj"
 jobs:
-  build:
-
+  pack:
     runs-on: ubuntu-latest
+    permissions:
+      packages: write
 
     steps:
       - uses: actions/checkout@v4
