@@ -8,8 +8,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AridityTeam.Base", ".\src\A
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AridityTeam.Base.Abstractions", "..\AridityTeam.Base.Abstractions\src\AridityTeam.Base.Abstractions.csproj", "{13DBCA48-A99C-4CFB-A65D-1730B2E97E1B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AridityTeam.Base.Networking", "..\AridityTeam.Base.Networking\src\AridityTeam.Base.Networking.csproj", "{9E7B3997-85BC-4669-94AB-283BFF5F0C4A}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{9A721394-DEEE-47B5-89AE-37B19C48F084}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AridityTeam.Base.Tests", ".\tests\AridityTeam.Base.Tests.csproj", "{689CC8C6-F010-4F09-ABD4-65447D843118}"
@@ -22,6 +20,14 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HeartBeatExample", "..\..\e
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConCommandExample", "..\..\examples\ConCommandExample\ConCommandExample.csproj", "{9FB576D0-8270-4466-99F7-DBD30D7A32AB}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Git", "Git", "{3693DA8C-DE3D-2EF8-FA43-F0E3DC822AA3}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Actions", "Actions", "{2F55BC63-BB6A-233C-9C50-330A601609A3}"
+	ProjectSection(SolutionItems) = preProject
+		..\..\..\.github\workflows\main-base-library-linux.yml = ..\..\..\.github\workflows\main-base-library-linux.yml
+		..\..\..\.github\workflows\main-base-library-win.yml = ..\..\..\.github\workflows\main-base-library-win.yml
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -32,6 +38,10 @@ Global
 		{83B840B7-980E-4FEC-B2D2-01E1E80EB9C5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{83B840B7-980E-4FEC-B2D2-01E1E80EB9C5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{83B840B7-980E-4FEC-B2D2-01E1E80EB9C5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{13DBCA48-A99C-4CFB-A65D-1730B2E97E1B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{13DBCA48-A99C-4CFB-A65D-1730B2E97E1B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{13DBCA48-A99C-4CFB-A65D-1730B2E97E1B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{13DBCA48-A99C-4CFB-A65D-1730B2E97E1B}.Release|Any CPU.Build.0 = Release|Any CPU
 		{689CC8C6-F010-4F09-ABD4-65447D843118}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{689CC8C6-F010-4F09-ABD4-65447D843118}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{689CC8C6-F010-4F09-ABD4-65447D843118}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -40,18 +50,10 @@ Global
 		{1EECD576-40D5-4938-8CDF-93DB6A48FCF4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1EECD576-40D5-4938-8CDF-93DB6A48FCF4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1EECD576-40D5-4938-8CDF-93DB6A48FCF4}.Release|Any CPU.Build.0 = Release|Any CPU
-		{13DBCA48-A99C-4CFB-A65D-1730B2E97E1B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{13DBCA48-A99C-4CFB-A65D-1730B2E97E1B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{13DBCA48-A99C-4CFB-A65D-1730B2E97E1B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{13DBCA48-A99C-4CFB-A65D-1730B2E97E1B}.Release|Any CPU.Build.0 = Release|Any CPU
 		{F47F2CD1-3B88-4A9E-B742-22E7BCA25BAD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{F47F2CD1-3B88-4A9E-B742-22E7BCA25BAD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F47F2CD1-3B88-4A9E-B742-22E7BCA25BAD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F47F2CD1-3B88-4A9E-B742-22E7BCA25BAD}.Release|Any CPU.Build.0 = Release|Any CPU
-		{9E7B3997-85BC-4669-94AB-283BFF5F0C4A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{9E7B3997-85BC-4669-94AB-283BFF5F0C4A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{9E7B3997-85BC-4669-94AB-283BFF5F0C4A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{9E7B3997-85BC-4669-94AB-283BFF5F0C4A}.Release|Any CPU.Build.0 = Release|Any CPU
 		{9FB576D0-8270-4466-99F7-DBD30D7A32AB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{9FB576D0-8270-4466-99F7-DBD30D7A32AB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9FB576D0-8270-4466-99F7-DBD30D7A32AB}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -60,16 +62,16 @@ Global
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
-	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {EC7C6A72-D1E2-453E-8802-B575E3A7E223}
-	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{83B840B7-980E-4FEC-B2D2-01E1E80EB9C5} = {ECE1533E-420F-4DA1-A400-9A236EBD832A}
+		{13DBCA48-A99C-4CFB-A65D-1730B2E97E1B} = {ECE1533E-420F-4DA1-A400-9A236EBD832A}
 		{689CC8C6-F010-4F09-ABD4-65447D843118} = {9A721394-DEEE-47B5-89AE-37B19C48F084}
 		{1EECD576-40D5-4938-8CDF-93DB6A48FCF4} = {87E14CB9-8097-490A-90CD-B90E769341AA}
-		{13DBCA48-A99C-4CFB-A65D-1730B2E97E1B} = {ECE1533E-420F-4DA1-A400-9A236EBD832A}
 		{F47F2CD1-3B88-4A9E-B742-22E7BCA25BAD} = {87E14CB9-8097-490A-90CD-B90E769341AA}
-		{9E7B3997-85BC-4669-94AB-283BFF5F0C4A} = {ECE1533E-420F-4DA1-A400-9A236EBD832A}
 		{9FB576D0-8270-4466-99F7-DBD30D7A32AB} = {87E14CB9-8097-490A-90CD-B90E769341AA}
+		{2F55BC63-BB6A-233C-9C50-330A601609A3} = {3693DA8C-DE3D-2EF8-FA43-F0E3DC822AA3}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {EC7C6A72-D1E2-453E-8802-B575E3A7E223}
 	EndGlobalSection
 EndGlobal

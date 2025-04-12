@@ -28,7 +28,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <OutputFiles Include="$(MSBuildProjectDirectory)\bin\**\*.*" Visible="false"/>
+    <OutputFiles Include="$(MSBuildProjectDirectory)\bin\**\*.*" Visible="false" />
   </ItemGroup>
 
   <Target Name="CopyOutputToBin" AfterTargets="Build">
@@ -40,12 +40,12 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="$(MSBuildProjectDirectory)\..\..\..\..\LICENSE" >
+    <None Include="$(MSBuildProjectDirectory)\..\..\..\..\LICENSE">
 	  <Pack>True</Pack>
       <PackagePath></PackagePath>
 	  <Visible>True</Visible>
     </None>
-    <None Include="$(MSBuildProjectDirectory)\..\README.md" >
+    <None Include="$(MSBuildProjectDirectory)\..\README.md">
 	  <Pack>True</Pack>
       <PackagePath></PackagePath>
 	  <Visible>True</Visible>
@@ -61,6 +61,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     <PackageReference Include="Sentry" Version="5.4.0" />
   </ItemGroup>
 
