@@ -20,9 +20,10 @@ jobs:
           source-url: https://nuget.pkg.github.com/AridityTeam/index.json
         env:
           NUGET_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }} 
-      - name: Debug GITHUB_TOKEN Permissions
+      - name: Check GITHUB_TOKEN Permissions
         run: |
-          curl -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" https://api.github.com/    
+          curl -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
+          https://api.github.com/repos/AridityTeam/aridity-dotnet-libraries/actions/permissions
       - name: Restore dependencies in all projects
         run: |
           dotnet restore ${MAIN_BASE_PROJ}
