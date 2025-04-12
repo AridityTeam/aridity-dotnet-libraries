@@ -26,7 +26,7 @@ jobs:
         working-directory: ${{ github.workspace }}
       - name: Build projects and Generate NuGet packages
         run: |
-          dotnet build --no-restore ${MAIN_BASE_SLN}
+          dotnet build --no-restore ${MAIN_BASE_SLN} --configuration Release
           dotnet pack --no-restore -c Release -o ./out-pkgs ${MAIN_BASE_SLN}
         working-directory: ${{ github.workspace }}
       - name: Push packages into GitHub
