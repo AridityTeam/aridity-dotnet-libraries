@@ -10,7 +10,6 @@ env:
   MAIN_BASE_TEST_PROJ: "src/libraries/AridityTeam.Base/tests/AridityTeam.Base.Tests.csproj"
 jobs:
   build:
-
     runs-on: windows-latest
 
     steps:
@@ -21,7 +20,10 @@ jobs:
         dotnet-version: 9.0.x
     - name: Restore dependencies
       run: dotnet restore ${MAIN_BASE_SLN}
+      working-directory: ${{ github.workspace }}
     - name: Build
       run: dotnet build --no-restore ${MAIN_BASE_SLN}
+      working-directory: ${{ github.workspace }}
     - name: Test
       run: dotnet test --no-build --verbosity normal ${MAIN_BASE_TEST_PROJ}
+      working-directory: ${{ github.workspace }}
