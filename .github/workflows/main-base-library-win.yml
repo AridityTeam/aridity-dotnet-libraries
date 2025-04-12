@@ -6,8 +6,8 @@ on:
   pull_request:
     branches: [ "master" ]
 env:
-  MAIN_BASE_SLN: "${GITHUB_WORKSPACE}/src/libraries/AridityTeam.Base/AridityTeam.Base.sln"
-  MAIN_BASE_TEST_PROJ: "${GITHUB_WORKSPACE}/src/libraries/AridityTeam.Base/tests/AridityTeam.Base.Tests.csproj"
+  MAIN_BASE_SLN: "src/libraries/AridityTeam.Base/AridityTeam.Base.sln"
+  MAIN_BASE_TEST_PROJ: "src/libraries/AridityTeam.Base/tests/AridityTeam.Base.Tests.csproj"
 jobs:
   build:
 
@@ -15,10 +15,6 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
-    - name: Debug Directory
-      run: ls -R ${GITHUB_WORKSPACE}/src/libraries/AridityTeam.Base
-    - name: Debug MAIN_BASE_SLN
-      run: echo "MAIN_BASE_SLN=${MAIN_BASE_SLN}"
     - name: Setup .NET
       uses: actions/setup-dotnet@v4
       with:
