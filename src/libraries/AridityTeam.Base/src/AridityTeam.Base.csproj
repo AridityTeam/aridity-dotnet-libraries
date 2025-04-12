@@ -11,14 +11,16 @@
   </PropertyGroup>
   <PropertyGroup>
     <Title>Aridity Team Base Routine Library</Title>
+    <PackageId>AridityTeam.Base</PackageId>
     <Authors>PracticeMedicine</Authors>
     <Description>A small-collection of low-level ("base") routines from the FortressInstaller project. (now I have added more into it.)</Description>
     <Copyright>Copyright (c) 2025 The Aridity Team</Copyright>
-    <PackageProjectUrl>https://bitbucket.org/aridity-project-src/aridity-dotnet-libraries</PackageProjectUrl>
+    <PackageProjectUrl>https://github.com/AridityTeam/aridity-dotnet-libraries</PackageProjectUrl>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <IncludeContentInPack>true</IncludeContentInPack>
-    <RepositoryUrl>https://bitbucket.org/aridity-project-src/aridity-dotnet-libraries</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <RepositoryUrl>https://github.com/AridityTeam/aridity-dotnet-libraries</RepositoryUrl>
     <PackageTags>base,lowlevel,routines,idk,aridity,arid,bf,bfclient</PackageTags>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
   </PropertyGroup>
