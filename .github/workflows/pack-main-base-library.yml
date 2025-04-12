@@ -21,7 +21,9 @@ jobs:
         env:
           NUGET_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}     
       - name: Restore dependencies in all projects
-        run: dotnet restore ${MAIN_BASE_SLN}
+        run: |
+          dotnet restore ${MAIN_BASE_PROJ}
+          dotnet restore ${ABST_BASE_PROJ}
         working-directory: ${{ github.workspace }}
       - name: Build all projects
         run: |
