@@ -15,6 +15,10 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
+    - name: Debug Directory
+      run: ls -R ${GITHUB_WORKSPACE}/src/libraries/AridityTeam.Base
+    - name: Debug MAIN_BASE_SLN
+      run: echo "MAIN_BASE_SLN=${MAIN_BASE_SLN}"
     - name: Setup .NET
       uses: actions/setup-dotnet@v4
       with:
