@@ -20,7 +20,7 @@ jobs:
           dotnet-version: 9.0.x
           source-url: https://nuget.pkg.github.com/AridityTeam/index.json
         env:
-          NUGET_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}     
+          NUGET_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}     
       - name: Restore dependencies in all projects
         run: dotnet restore ${MAIN_BASE_SLN}
         working-directory: ${{ github.workspace }}
@@ -30,5 +30,5 @@ jobs:
           dotnet pack --no-restore -c Release -o ./out-pkgs ${MAIN_BASE_SLN}
         working-directory: ${{ github.workspace }}
       - name: Push packages into GitHub
-        run: dotnet nuget push ./out-pkgs/*.nupkg --api-key ${{secrets.GITHUB_TOKEN}} --source https://nuget.pkg.github.com/AridityTeam/index.json --skip-duplicate --no-symbols true
+        run: dotnet nuget push ./out-pkgs/*.nupkg --api-key ${{ secrets.GITHUB_TOKEN }} --source https://nuget.pkg.github.com/AridityTeam/index.json --skip-duplicate --no-symbols true
         working-directory: ${{ github.workspace }}
