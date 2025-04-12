@@ -5,7 +5,9 @@ on:
     branches: [ "master" ]
   pull_request:
     branches: [ "master" ]
-
+env:
+  MAIN_BASE_SLN: "${GITHUB_ACTION_PATH}/src/libraries/AridityTeam.Base/AridityTeam.Base.sln"
+  MAIN_BASE_TEST_PROJ: "${GITHUB_ACTION_PATH}/src/libraries/AridityTeam.Base/tests/AridityTeam.Base.Tests.csproj"
 jobs:
   build:
 
@@ -18,8 +20,8 @@ jobs:
       with:
         dotnet-version: 9.0.x
     - name: Restore dependencies
-      run: dotnet restore src/libraries/AridityTeam.Base/AridityTeam.Base.sln
+      run: dotnet restore ${MAIN_BASE_SLN}
     - name: Build
-      run: dotnet build --no-restore src/libraries/AridityTeam.Base/AridityTeam.Base.sln
+      run: dotnet build --no-restore ${MAIN_BASE_SLN}
     - name: Test
-      run: dotnet test --no-build --verbosity normal src/libraries/AridityTeam.Base/tests/AridityTeam.Base.Tests.csproj
+      run: dotnet test --no-build --verbosity normal ${MAIN_BASE_TEST_PROJ}
