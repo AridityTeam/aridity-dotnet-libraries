@@ -36,4 +36,6 @@ jobs:
         working-directory: ${{ github.workspace }}
       - name: Push packages into GitHub
         run: dotnet nuget push ./out-pkgs/*.nupkg --api-key ${{ secrets.GITHUB_TOKEN }} --source https://nuget.pkg.github.com/AridityTeam/index.json --skip-duplicate --no-symbols true
+        env:
+          NUGET_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         working-directory: ${{ github.workspace }}
