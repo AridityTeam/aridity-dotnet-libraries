@@ -1,46 +1,46 @@
->
-  name: Pack AridityTeam.Base
-  
-  on:
-    push:
-      branches: [ "master" ]
-    pull_request:
-      branches: [ "master" ]
-  env:
-    MAIN_BASE_PROJ: "src/libraries/AridityTeam.Base/src/AridityTeam.Base.csproj"
-    ABST_BASE_PROJ: "src/libraries/AridityTeam.Base.Abstractions/src/AridityTeam.Base.Abstractions.csproj"
-  jobs:
-    pack:
-      runs-on: ubuntu-latest
-      steps:
-        - uses: actions/checkout@v4
-        - name: Setup .NET
-          uses: actions/setup-dotnet@v4
-          with:
-            dotnet-version: 9.0.x
-            source-url: https://nuget.pkg.github.com/AridityTeam/index.json
-          env:
-            NUGET_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }} 
-        - name: Check GITHUB_TOKEN Permissions
-          run: |
-            curl -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
-            https://api.github.com/repos/AridityTeam/aridity-dotnet-libraries/actions/permissions
-        - name: Restore dependencies in all projects
-          run: |
-            dotnet restore ${MAIN_BASE_PROJ}
-            dotnet restore ${ABST_BASE_PROJ}
-          working-directory: ${{ github.workspace }}
-        - name: Build all projects
-          run: |
-            dotnet build --no-restore ${MAIN_BASE_PROJ} --configuration Release
-            dotnet build --no-restore ${ABST_BASE_PROJ} --configuration Release
-        - name: Generate NuGet packages
-          run: |
-            dotnet pack --no-restore -c Release -o ./out-pkgs ${MAIN_BASE_PROJ}
-            dotnet pack --no-restore -c Release -o ./out-pkgs ${ABST_BASE_PROJ}
-          working-directory: ${{ github.workspace }}
-        - name: Push packages into GitHub
-          run: dotnet nuget push ./out-pkgs/*.nupkg --api-key ${{ secrets.GITHUB_TOKEN }} --source https://nuget.pkg.github.com/AridityTeam/index.json --skip-duplicate --no-symbols true
-          env:
-            NUGET_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          working-directory: ${{ github.workspace }}
+#name: Pack AridityTeam.Base
+#
+#on:
+#  push:
+#    branches: [ "master" ]
+#  pull_request:
+#    branches: [ "master" ]
+#env:
+#  MAIN_BASE_PROJ: "src/libraries/AridityTeam.Base/src/AridityTeam.Base.csproj"
+#  ABST_BASE_PROJ: "src/libraries/AridityTeam.Base.Abstractions/src/AridityTeam.Base.Abstractions.csproj"
+#jobs:
+#  pack:
+#    runs-on: ubuntu-latest
+#    steps:
+#      - uses: actions/checkout@v4
+#      - name: Setup .NET
+#        uses: actions/setup-dotnet@v4
+#        with:
+#          dotnet-version: 9.0.x
+#          source-url: https://nuget.pkg.github.com/AridityTeam/index.json
+#        env:
+#          NUGET_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }} 
+#      - name: Check GITHUB_TOKEN Permissions
+#        run: |
+#          curl -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
+#          https://api.github.com/repos/AridityTeam/aridity-dotnet-libraries/actions/permissions
+#      - name: Restore dependencies in all projects
+#        run: |
+#          dotnet restore ${MAIN_BASE_PROJ}
+#          dotnet restore ${ABST_BASE_PROJ}
+#        working-directory: ${{ github.workspace }}
+#      - name: Build all projects
+#        run: |
+#          dotnet build --no-restore ${MAIN_BASE_PROJ} --configuration Release
+#          dotnet build --no-restore ${ABST_BASE_PROJ} --configuration Release
+#      - name: Generate NuGet packages
+#        run: |
+#          dotnet pack --no-restore -c Release -o ./out-pkgs ${MAIN_BASE_PROJ}
+#          dotnet pack --no-restore -c Release -o ./out-pkgs ${ABST_BASE_PROJ}
+#        working-directory: ${{ github.workspace }}
+#      - name: Push packages into GitHub
+#        run: dotnet nuget push ./out-pkgs/*.nupkg --api-key ${{ secrets.GITHUB_TOKEN }} --source https://nuget.pkg.github.com/AridityTeam/index.json --skip-duplicate --no-symbols true
+#        env:
+#          NUGET_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+#        working-directory: ${{ github.workspace }}
+#"""
