@@ -6,8 +6,8 @@ on:
   pull_request:
     branches: [ "master" ]
 env:
-  MAIN_BASE_SLN: "${GITHUB_ACTION_PATH}/src/libraries/AridityTeam.Base/AridityTeam.Base.sln"
-  MAIN_BASE_TEST_PROJ: "${GITHUB_ACTION_PATH}/src/libraries/AridityTeam.Base/tests/AridityTeam.Base.Tests.csproj"
+  MAIN_BASE_SLN: "${GITHUB_WORKSPACE}/src/libraries/AridityTeam.Base/AridityTeam.Base.sln"
+  MAIN_BASE_TEST_PROJ: "${GITHUB_WORKSPACE}/src/libraries/AridityTeam.Base/tests/AridityTeam.Base.Tests.csproj"
 jobs:
   build:
 
