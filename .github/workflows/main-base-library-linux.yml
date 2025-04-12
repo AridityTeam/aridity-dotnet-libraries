@@ -7,7 +7,6 @@ on:
     branches: [ "master" ]
 env:
   MAIN_BASE_SLN: "src/libraries/AridityTeam.Base/AridityTeam.Base.sln"
-  MAIN_BASE_TEST_PROJ: "src/libraries/AridityTeam.Base/tests/AridityTeam.Base.Tests.csproj"
 jobs:
   build:
 
@@ -26,5 +25,5 @@ jobs:
       run: dotnet build --no-restore ${MAIN_BASE_SLN}
       working-directory: ${{ github.workspace }}
     - name: Test
-      run: dotnet test --no-build --verbosity normal ${MAIN_BASE_TEST_PROJ}
+      run: dotnet test --no-build --verbosity normal ${MAIN_BASE_SLN}
       working-directory: ${{ github.workspace }}
