@@ -26,6 +26,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Actions", "Actions", "{2F55
 	ProjectSection(SolutionItems) = preProject
 		..\..\..\.github\workflows\main-base-library-linux.yml = ..\..\..\.github\workflows\main-base-library-linux.yml
 		..\..\..\.github\workflows\main-base-library-win.yml = ..\..\..\.github\workflows\main-base-library-win.yml
+		..\..\..\.github\workflows\pack-main-base-library.yml = ..\..\..\.github\workflows\pack-main-base-library.yml
 	EndProjectSection
 EndProject
 Global
