@@ -1,3 +1,7 @@
+> [!WARNING]
+> **Obsolete**. \
+> Use https://github.com/AridityTeam/aridity-platform-lib instead.
+
 # Aridity .NET libraries
 This is where the source code of the Aridity libraries is being stored.
 
